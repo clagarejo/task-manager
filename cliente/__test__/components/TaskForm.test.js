@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-// import '@testing-library/jest-dom/extend-expect';  // Agregado para las aserciones como toBeInTheDocument
 import TaskForm from '../../src/components/TaskForm';
 
 test('debe coincidir con el snapshot', () => {

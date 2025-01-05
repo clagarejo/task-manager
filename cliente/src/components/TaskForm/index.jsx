@@ -1,49 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const TaskForm = ({ onAddTask }) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [error, setError] = useState('');
+import './styles.css'
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+const TaskForm = ({
+    handleAddOrUpdateTask,
+    editingTask,
+    newTitle,
+    newDescription,
+    setNewTitle,
+    setNewDescription
+}) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-        if (!title || !description) {
-            setError('Todos los campos son requeridos');
-            return;
-        }
-
-        onAddTask({ title, description });
-        setTitle('');
-        setDescription('');
-        setError('');
+        handleAddOrUpdateTask({ title: newTitle, description: newDescription });
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="task-form-input">
-                <label htmlFor="title">Título</label>
-                <input
-                    id="title"
-                    type="text"
-                    placeholder='Título'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </div>
-            <div>
-                <label htmlFor="description">Descripción</label>
-                <input
-                    id="description"
-                    type="text"
-                    value={description}
-                    placeholder='Descripción'
-                    onChange={(e) => setDescription(e.target.value)}
-
-                />
-            </div>
-            <button type="submit">Agregar tarea</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+        <form onSubmit={handleSubmit} className="task-form">
+            <input
+                type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="Título de la tarea"
+                className="task-input"
+            />
+            <textarea
+                value={newDescription}
+                onChange={(e) => setNewDescription(e.target.value)}
+                placeholder="Descripción de la tarea"
+                className="task-textarea"
+            />
+            <button type="submit" className="task-button">
+                {editingTask ? "Actualizar tarea" : "Agregar tarea"}
+            </button>
         </form>
     );
 };

@@ -25,23 +25,17 @@ router.put('/tasks/:id', (req, res) => {
     const { id } = req.params;
     const { title, description } = req.body;
 
-    // Verificar si la tarea existe
-    const taskIndex = tasks.findIndex(task => task.id === parseInt(id));
-    if (taskIndex === -1) {
+    let task = tasks.find(task => task.id === parseInt(id));
+    if (!task) {
         return res.status(404).json({ error: 'Tarea no encontrada' });
     }
 
-    // Validar que ambos campos existan
-    if (!title || !description) {
-        return res.status(400).json({ error: 'Todos los campos son requeridos' });
-    }
+    task.title = title || task.title;
+    task.description = description || task.description;
 
-    // Actualizar la tarea
-    tasks[taskIndex] = { id: parseInt(id), title, description };
-
-    // Responder con la tarea actualizada
-    res.json(tasks[taskIndex]);
+    res.json(task);
 });
+
 
 router.delete('/tasks/:id', (req, res) => {
     const { id } = req.params;

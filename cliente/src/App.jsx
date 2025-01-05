@@ -1,45 +1,49 @@
-import { useState, useEffect } from "react";
-import { getTasks, addTask, deleteTask } from "@/services/taskService";
+import { useState } from "react";
 import ErrorNotification from "@/components/errorNotification";
-
 import './app.css';
-
 import Tasks from "@/components/Task";
 import TaskForm from "@/components/TaskForm";
+import { useTasks } from "@/hooks/useTasks";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState("");
+  const [editingTask, setEditingTask] = useState(null);
+  const { tasks, error, handleAddTask, handleDeleteTask, handleUpdateTask } = useTasks();
 
-  useEffect(() => {
-    getTasks()
-      .then(response => setTasks(response.data))
-      .catch(err => console.error("Error fetching tasks:", err));
-  }, []);
+  const [newTitle, setNewTitle] = useState('');
+  const [newDescription, setNewDescription] = useState('');
 
-  const handleAddTask = (newTask) => {
-    addTask(newTask)
-      .then(response => {
-        setTasks([...tasks, response.data]);
-        setError("");
-      })
-      .catch(err => setError("Error al agregar la tarea"));
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setNewTitle(task.title);
+    setNewDescription(task.description);
   };
 
-  const handleDeleteTask = (id) => {
-    deleteTask(id)
-      .then(() => {
-        setTasks(tasks.filter(task => task.id !== id));
-      })
-      .catch(err => setError("Error al eliminar la tarea"));
+  const handleAddOrUpdateTask = (task) => {
+    if (editingTask) {
+      handleUpdateTask({ ...task, id: editingTask.id });
+      setEditingTask(null); 
+      setNewTitle('');
+      setNewDescription('');
+    } else {
+      handleAddTask(task);
+      setNewTitle('');
+      setNewDescription('');
+    }
   };
 
   return (
     <div className="tasks-container">
       <section className="form-section">
         <h1>Gestión de tareas</h1>
+        <TaskForm
+          handleAddOrUpdateTask={handleAddOrUpdateTask} 
+          editingTask={editingTask}
+          newTitle={newTitle}
+          newDescription={newDescription}
+          setNewTitle={setNewTitle}
+          setNewDescription={setNewDescription}
+        />
         {error && <ErrorNotification message={error} />}
-        <TaskForm onAddTask={handleAddTask} />
       </section>
 
       <section className="tasks-section">
@@ -47,7 +51,12 @@ function App() {
         {tasks.length > 0 ? (
           <ul>
             {tasks.map(task => (
-              <Tasks key={task.id} task={task} handleDeleteTask={handleDeleteTask} />
+              <Tasks
+                key={task.id}
+                task={task}
+                handleDeleteTask={handleDeleteTask}
+                handleEditTask={handleEditTask}
+              />
             ))}
           </ul>
         ) : (
@@ -56,7 +65,6 @@ function App() {
       </section>
     </div>
   );
-
 }
 
 export default App;
