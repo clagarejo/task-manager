@@ -51,7 +51,7 @@ function App() {
             ))}
           </ul>
         ) : (
-          <p style={{ color: 'red' }}>No hay tareas para mostrar en este momento</p>
+          <p>No hay tareas para mostrar en este momento</p>
         )}
       </section>
     </div>
