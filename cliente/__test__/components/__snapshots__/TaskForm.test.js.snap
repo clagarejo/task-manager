@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`debe coincidir con el snapshot 1`] = `
+<DocumentFragment>
+  <form>
+    <div
+      class="task-form-input"
+    >
+      <label
+        for="title"
+      >
+        Título
+      </label>
+       
+      <input
+        id="title"
+        type="text"
+        value=""
+      />
+    </div>
+    <div>
+      <label
+        for="description"
+      >
+        Descripción
+      </label>
+       
+      <input
+        id="description"
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      type="submit"
+    >
+      Agregar tarea
+    </button>
+  </form>
+</DocumentFragment>
+`;

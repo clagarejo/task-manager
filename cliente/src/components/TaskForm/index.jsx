@@ -1,47 +1,51 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 
-function TaskForm({ onAddTask }) {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [error, setError] = useState("");
+const TaskForm = ({ onAddTask }) => {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
         if (!title || !description) {
-            setError("Todos los campos son requeridos");
+            setError('Todos los campos son requeridos');
             return;
         }
 
         onAddTask({ title, description });
-        setTitle("");
-        setDescription("");
+        setTitle('');
+        setDescription('');
+        setError('');
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <div className="task-form-input">
-                <label>Título</label>
+                <label htmlFor="title">Título</label>
                 <input
+                    id="title"
                     type="text"
+                    placeholder='Título'
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
             </div>
-
             <div>
-                <label>Descripción</label>
+                <label htmlFor="description">Descripción</label>
                 <input
+                    id="description"
                     type="text"
                     value={description}
+                    placeholder='Descripción'
                     onChange={(e) => setDescription(e.target.value)}
+
                 />
             </div>
-
             <button type="submit">Agregar tarea</button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
     );
-}
+};
 
 export default TaskForm;

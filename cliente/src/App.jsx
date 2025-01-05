@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { getTasks, addTask, deleteTask } from "@/services/taskService"; // Importar las funciones del servicio
+import { getTasks, addTask, deleteTask } from "@/services/taskService";
 import ErrorNotification from "@/components/errorNotification";
-import Tasks from "@/components/task";
-import TaskForm from "@/components/TaskForm";
 
 import './app.css';
+
+import Tasks from "@/components/Task";
+import TaskForm from "@/components/TaskForm";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -19,7 +20,7 @@ function App() {
   const handleAddTask = (newTask) => {
     addTask(newTask)
       .then(response => {
-        setTasks([response.data, ...tasks]);
+        setTasks([...tasks, response.data]);
         setError("");
       })
       .catch(err => setError("Error al agregar la tarea"));

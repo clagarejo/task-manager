@@ -1,5 +1,7 @@
 import { FaTrashAlt } from 'react-icons/fa';
 
+import './styles.css'
+
 export default function Tasks({ task, handleDeleteTask }) {
     return (
         <li className="task-card">
