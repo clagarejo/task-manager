@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { getTasks, addTask, deleteTask } from "@/services/taskService"; // Importar las funciones del servicio
-import './app.css';
 import ErrorNotification from "@/components/errorNotification";
 import Tasks from "@/components/task";
 import TaskForm from "@/components/TaskForm";
 
+import './app.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
