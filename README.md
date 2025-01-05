@@ -19,6 +19,5 @@ Este es un proyecto de gestión de tareas creado con React. Permite agregar, eli
 1. **Instalación de dependencias**: Asegúrate de tener Node.js y Yarn instalados. Luego, ejecuta `yarn install` para instalar las dependencias del monorepositorio.
 2. **Configuración de Jest**: Asegúrate de que cada paquete dentro del monorepo tenga una configuración adecuada para Jest. La configuración incluye mapeos para archivos CSS y cualquier otro tipo de archivo necesario.
 3. **Ejecutar pruebas**: Puedes ejecutar pruebas para un paquete específico o para todos los paquetes dentro del monorepo con los comandos proporcionados.
-4. **Errores comunes**: Se proporcionan soluciones para errores comunes, como problemas con la configuración de archivos CSS y problemas al ejecutar `yarn test`.
 
 
