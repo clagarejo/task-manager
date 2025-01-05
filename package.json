@@ -1,0 +1,21 @@
+{
+  "name": "task-manager",
+  "version": "1.0.0",
+  "description": "Prueba Fullstack Stefanini GROUP",
+  "main": "index.js",
+  "author": "Yan Carlos Lagarejo Raga",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "cliente",
+    "servidor"
+  ],
+  "scripts": {
+    "dev:cliente": "yarn workspace cliente dev",
+    "dev:servidor": "node servidor/index.js",
+    "dev": "concurrently \"yarn dev:cliente\" \"yarn dev:servidor\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
