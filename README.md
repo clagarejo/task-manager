@@ -17,12 +17,29 @@ Clona el repositorio y entra a la carpeta `task-manager`:
 ```bash
 git clone <url-del-repositorio>
 cd task-manager
+2. Instalar las dependencias
+Instala las dependencias utilizando Yarn (o npm si prefieres):
 
-### 1. Instalar las dependencias
+Con Yarn:
+bash
+Copiar código
 yarn install
+Con npm:
+bash
+Copiar código
+npm install
+3. Iniciar la aplicación
+Para iniciar la aplicación, ejecuta uno de los siguientes comandos según tu gestor de paquetes:
 
-### 1. Iniciar el proyecto
+Con Yarn:
+bash
+Copiar código
 yarn dev
+Con npm:
+bash
+Copiar código
+npm run dev
+Esto levantará el proyecto en la ruta: http://localhost:3000.
 
 Testing
 A continuación, se describen los pasos para ejecutar las pruebas de este proyecto.
@@ -96,6 +113,11 @@ Problemas con Jest: Si las pruebas no se ejecutan correctamente, asegúrate de q
 Contribuir
 Si deseas contribuir o mejorar el proyecto, puedes abrir un Issue o enviar un Pull Request. Asegúrate de seguir las convenciones de estilo y agregar pruebas si es necesario.
 
+Licencia
+Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+
+markdown
+Copiar código
 
 ### Cambios realizados:
 
@@ -103,6 +125,13 @@ Si deseas contribuir o mejorar el proyecto, puedes abrir un Issue o enviar un Pu
 2. **Corrección de instrucciones**: Mejoré los pasos de instalación, ejecución de la aplicación y pruebas.
 3. **Corrección en la instalación de dependencias**: Aclaré que se debe instalar primero las dependencias con Yarn o npm.
 4. **Mejoras en las instrucciones de testing**: Agregué más claridad sobre cómo ejecutar pruebas y configurarlas correctamente.
+5. **Manejo de errores comunes**: Añadí instrucciones claras sobre cómo manejar problemas comunes al ejecutar las pruebas.
+
+Este `README.md` ahora está más organizado, claro y detallado, cubriendo tanto la instalación y ejecución del proyecto como la configuración y ejecución de pruebas.
+
+
+
+
 
 
 
