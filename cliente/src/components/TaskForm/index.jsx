@@ -1,6 +1,5 @@
 import React from 'react';
-
-import './styles.css'
+import './styles.css';
 
 const TaskForm = ({
     handleAddOrUpdateTask,
@@ -13,7 +12,9 @@ const TaskForm = ({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        handleAddOrUpdateTask({ title: newTitle, description: newDescription });
+        if (newTitle.trim() && newDescription.trim()) { // Asegúrate de que los campos no estén vacíos
+            handleAddOrUpdateTask({ title: newTitle, description: newDescription });
+        } 
     };
 
     return (
@@ -22,13 +23,13 @@ const TaskForm = ({
                 type="text"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="Título de la tarea"
+                placeholder="Título"
                 className="task-input"
             />
             <textarea
                 value={newDescription}
                 onChange={(e) => setNewDescription(e.target.value)}
-                placeholder="Descripción de la tarea"
+                placeholder="Descripción"
                 className="task-textarea"
             />
             <button type="submit" className="task-button">
