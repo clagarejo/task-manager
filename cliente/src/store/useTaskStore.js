@@ -10,13 +10,20 @@ export const useTaskStore = create((set) => ({
         set({ loading: true, error: null });
         try {
             const response = await taskServices.getTasks();
-            set({ tasks: response.data });
+    
+            const tasksWithStatus = response.data.map((task) => ({
+                ...task,
+                status: "backlog",
+            }));
+    
+            set({ tasks: tasksWithStatus });
         } catch (error) {
             set({ error: "Error al cargar las tareas." });
         } finally {
             set({ loading: false });
         }
     },
+    
 
     addTask: async (task) => {
         set({ error: null });

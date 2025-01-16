@@ -1,0 +1,89 @@
+.column {
+    border-radius: 8px;
+    margin: 0 1rem;
+    border: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex: 1;
+    min-height: 500px;
+    background-color: #f4f4f4;
+}
+
+h2 {
+    margin-left: 10px;
+}
+
+.column.backlog {
+    background-color: #D3CEFF;
+}
+
+.column.todo {
+    background-color: #C4E2FC;
+}
+
+.column.inprogress {
+    background-color: #FAE9CE;
+}
+
+.column.done {
+    background-color: #E9FFDA;
+}
+
+.column section {
+    width: 100%;
+    max-height: 490px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 1rem;
+}
+
+.column section::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+ul {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+}
+
+.column h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.add-task-btn {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 2px dashed;
+    border-color: inherit;
+    background-color: inherit;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+    margin-top: auto;
+}
+
+.add-task-btn:hover {
+    color: inherit;
+}
