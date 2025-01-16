@@ -10,7 +10,6 @@ export const useTaskStore = create((set) => ({
         set({ loading: true, error: null });
         try {
             const response = await taskServices.getTasks();
-            console.log(response.data, 'api')
             set({ tasks: response.data });
         } catch (error) {
             set({ error: "Error al cargar las tareas." });
