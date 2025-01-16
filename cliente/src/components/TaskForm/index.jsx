@@ -1,34 +1,49 @@
-import React from 'react';
-import './styles.css';
+import React, { useState, useEffect } from "react";
+import {useTaskStore} from "@/store/useTaskStore";
+import "./styles.css";
 
-const TaskForm = ({
-    handleAddOrUpdateTask,
-    editingTask,
-    newTitle,
-    newDescription,
-    setNewTitle,
-    setNewDescription
-}) => {
+const TaskForm = ({ editingTask }) => {
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    const { addTask, updateTask } = useTaskStore();
+
+    useEffect(() => {
+        if (editingTask) {
+            setTitle(editingTask.title);
+            setDescription(editingTask.description);
+        } else {
+            setTitle("");
+            setDescription("");
+        }
+    }, [editingTask]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (newTitle.trim() && newDescription.trim()) { // Asegúrate de que los campos no estén vacíos
-            handleAddOrUpdateTask({ title: newTitle, description: newDescription });
-        } 
+        if (title.trim() && description.trim()) {
+            if (editingTask) {
+                updateTask({ ...editingTask, title, description });
+            } else {
+                addTask({ title, description });
+            }
+            setTitle("");
+            setDescription("");
+        }
     };
 
     return (
         <form onSubmit={handleSubmit} className="task-form">
             <input
                 type="text"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 placeholder="Título"
                 className="task-input"
             />
             <textarea
-                value={newDescription}
-                onChange={(e) => setNewDescription(e.target.value)}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Descripción"
                 className="task-textarea"
             />

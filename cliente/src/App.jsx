@@ -1,16 +1,22 @@
 import { useState } from "react";
 import ErrorNotification from "@/components/ErrorNotification";
-import './styles.css';
+import "./styles.css";
 import Tasks from "@/components/Task";
 import TaskForm from "@/components/TaskForm";
-import { useTasks } from "@/hooks/useTasks";
+import {useTaskStore} from "@/store/useTaskStore";
 
 function App() {
   const [editingTask, setEditingTask] = useState(null);
-  const { tasks, error, handleAddTask, handleDeleteTask, handleUpdateTask } = useTasks();
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
+  const {
+    tasks,
+    error,
+    addTask,
+    deleteTask,
+    updateTask,
+  } = useTaskStore();
 
   const handleEditTask = (task) => {
     setEditingTask(task);
@@ -20,14 +26,14 @@ function App() {
 
   const handleAddOrUpdateTask = (task) => {
     if (editingTask) {
-      handleUpdateTask({ ...task, id: editingTask.id });
-      setEditingTask(null); 
-      setNewTitle('');
-      setNewDescription('');
+      updateTask({ ...task, id: editingTask.id });
+      setEditingTask(null);
+      setNewTitle("");
+      setNewDescription("");
     } else {
-      handleAddTask(task);
-      setNewTitle('');
-      setNewDescription('');
+      addTask(task);
+      setNewTitle("");
+      setNewDescription("");
     }
   };
 
@@ -36,7 +42,7 @@ function App() {
       <section className="form-section">
         <h1>Gestión de tareas</h1>
         <TaskForm
-          handleAddOrUpdateTask={handleAddOrUpdateTask} 
+          handleAddOrUpdateTask={handleAddOrUpdateTask}
           editingTask={editingTask}
           newTitle={newTitle}
           newDescription={newDescription}
@@ -50,11 +56,11 @@ function App() {
         <h2>Tareas</h2>
         {tasks.length > 0 ? (
           <ul>
-            {tasks.map(task => (
+            {tasks.map((task) => (
               <Tasks
                 key={task.id}
                 task={task}
-                handleDeleteTask={handleDeleteTask}
+                handleDeleteTask={deleteTask}
                 handleEditTask={handleEditTask}
               />
             ))}
