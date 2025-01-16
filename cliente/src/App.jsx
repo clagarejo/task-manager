@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ErrorNotification from "@/components/errorNotification";
-import './app.css';
+import ErrorNotification from "@/components/ErrorNotification";
+import './styles.css';
 import Tasks from "@/components/Task";
 import TaskForm from "@/components/TaskForm";
 import { useTasks } from "@/hooks/useTasks";
