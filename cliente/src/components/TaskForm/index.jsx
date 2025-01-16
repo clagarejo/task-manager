@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {useTaskStore} from "@/store/useTaskStore";
+import { useTaskStore } from "@/store/useTaskStore";
 import "./styles.css";
 
-const TaskForm = ({ editingTask }) => {
+const TaskForm = ({ editingTask, setEditingTask }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
@@ -24,16 +24,18 @@ const TaskForm = ({ editingTask }) => {
         if (title.trim() && description.trim()) {
             if (editingTask) {
                 updateTask({ ...editingTask, title, description });
+               
             } else {
                 addTask({ title, description });
             }
             setTitle("");
             setDescription("");
+            setEditingTask("")
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="task-form">
+        <form onSubmit={handleSubmit} className="task-form" role="form">
             <input
                 type="text"
                 value={title}

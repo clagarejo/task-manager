@@ -1,22 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ErrorNotification from "@/components/ErrorNotification";
-import "./styles.css";
 import Tasks from "@/components/Task";
 import TaskForm from "@/components/TaskForm";
 import {useTaskStore} from "@/store/useTaskStore";
+import "./styles.css";
 
 function App() {
+  const { tasks, error, fetchTasks, deleteTask, loading } = useTaskStore(); 
   const [editingTask, setEditingTask] = useState(null);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
-  const {
-    tasks,
-    error,
-    addTask,
-    deleteTask,
-    updateTask,
-  } = useTaskStore();
+  useEffect(() => {
+    fetchTasks(); 
+  }, [fetchTasks]);
 
   const handleEditTask = (task) => {
     setEditingTask(task);
@@ -24,26 +21,13 @@ function App() {
     setNewDescription(task.description);
   };
 
-  const handleAddOrUpdateTask = (task) => {
-    if (editingTask) {
-      updateTask({ ...task, id: editingTask.id });
-      setEditingTask(null);
-      setNewTitle("");
-      setNewDescription("");
-    } else {
-      addTask(task);
-      setNewTitle("");
-      setNewDescription("");
-    }
-  };
-
   return (
     <div className="tasks-container">
       <section className="form-section">
         <h1>Gestión de tareas</h1>
         <TaskForm
-          handleAddOrUpdateTask={handleAddOrUpdateTask}
           editingTask={editingTask}
+          setEditingTask={setEditingTask}
           newTitle={newTitle}
           newDescription={newDescription}
           setNewTitle={setNewTitle}
@@ -54,13 +38,15 @@ function App() {
 
       <section className="tasks-section">
         <h2>Tareas</h2>
-        {tasks.length > 0 ? (
+        {loading ? (
+          <p>Cargando tareas...</p>
+        ) : tasks.length > 0 ? (
           <ul>
-            {tasks.map((task) => (
+            {tasks.map((task, index) => (
               <Tasks
-                key={task.id}
+                key={`${task.id}-${index}`} 
                 task={task}
-                handleDeleteTask={deleteTask}
+                handleDeleteTask={deleteTask} 
                 handleEditTask={handleEditTask}
               />
             ))}

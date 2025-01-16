@@ -1,80 +1,88 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import TaskForm from '@/components/TaskForm';
+import { useTaskStore } from '@/store/useTaskStore';
 
-import TaskForm from '../../src/components/TaskForm';
+// Simulamos el store para que las funciones addTask y updateTask sean mokeadas
+jest.mock('@/store/useTaskStore', () => ({
+    useTaskStore: jest.fn()
+}));
 
-test('debe coincidir con el snapshot', () => {
-    const { asFragment } = render(<TaskForm onAddTask={() => { }} />);
+describe('TaskForm', () => {
+    let mockAddTask;
+    let mockUpdateTask;
+    let setEditingTask;
 
-    // Verifica si el componente se renderiza de acuerdo al snapshot
-    expect(asFragment()).toMatchSnapshot();
-});
+    beforeEach(() => {
+        mockAddTask = jest.fn();
+        mockUpdateTask = jest.fn();
+        useTaskStore.mockReturnValue({
+            addTask: mockAddTask,
+            updateTask: mockUpdateTask
+        });
 
-// test('debe llamar onAddTask cuando el formulario es válido', () => {
-//     const onAddTaskMock = jest.fn();
+        setEditingTask = jest.fn();
+    });
 
-//     render(<TaskForm onAddTask={onAddTaskMock} />);
+    test('debe coincidir con el snapshot', () => {
+        const { asFragment } = render(<TaskForm editingTask={null} setEditingTask={setEditingTask} />);
+        expect(asFragment()).toMatchSnapshot();
+    });
 
-//     // Completa los campos del formulario
-//     fireEvent.change(screen.getByPlaceholderText(/Título/i), { target: { value: 'Nueva tarea' } });
-//     fireEvent.change(screen.getByPlaceholderText(/Descripción/i), { target: { value: 'Descripción de la tarea' } });
-    
-//     // Simula el envío del formulario
-//     fireEvent.click(screen.getByText(/agregar tarea/i));
+    test('debe renderizar el formulario correctamente', () => {
+        render(<TaskForm editingTask={null} setEditingTask={setEditingTask} />);
 
-//     // Verifica que la función onAddTask haya sido llamada con los valores correctos
-//     expect(onAddTaskMock).toHaveBeenCalledWith({
-//         title: 'Nueva tarea',
-//         description: 'Descripción de la tarea',
-//     });
-// });
+        expect(screen.getByPlaceholderText('Título')).toBeInTheDocument();
+        expect(screen.getByPlaceholderText('Descripción')).toBeInTheDocument();
+        expect(screen.getByText('Agregar tarea')).toBeInTheDocument();
+    });
 
-test('llama a handleAddOrUpdateTask con los valores correctos al enviar el formulario', () => {
-    const mockHandleAddOrUpdateTask = jest.fn();
+    test('debe llamar a addTask con los valores correctos al enviar el formulario', () => {
+        render(<TaskForm editingTask={null} setEditingTask={setEditingTask} />);
 
-    render(
-        <TaskForm
-            handleAddOrUpdateTask={mockHandleAddOrUpdateTask}
-            editingTask={null}
-            newTitle="Nueva tarea"
-            newDescription="Descripción de la nueva tarea"
-            setNewTitle={() => { }}
-            setNewDescription={() => { }}
-        />
-    );
+        fireEvent.change(screen.getByPlaceholderText('Título'), {
+            target: { value: 'Nueva tarea' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Descripción'), {
+            target: { value: 'Descripción de la nueva tarea' }
+        });
 
-    // Simula el envío del formulario
-    fireEvent.submit(screen.getByRole('button', { name: /agregar tarea/i }));
+        fireEvent.submit(screen.getByRole('form'));
 
-    // Asegura que la función se llamó con los valores correctos
-    expect(mockHandleAddOrUpdateTask).toHaveBeenCalledWith({
-        title: 'Nueva tarea',
-        description: 'Descripción de la nueva tarea',
+        expect(mockAddTask).toHaveBeenCalledWith({
+            title: 'Nueva tarea',
+            description: 'Descripción de la nueva tarea'
+        });
+        expect(setEditingTask).toHaveBeenCalledWith('');
+    });
+
+    test('no debe llamar a addTask si los campos están vacíos', () => {
+        render(<TaskForm editingTask={null} setEditingTask={setEditingTask} />);
+
+        fireEvent.submit(screen.getByRole('form'));
+
+        expect(mockAddTask).not.toHaveBeenCalled();
+    });
+
+    test('debe llamar a updateTask con los valores correctos al editar una tarea', () => {
+        const editingTask = { id: 1, title: 'Tarea existente', description: 'Descripción de tarea existente' };
+
+        render(<TaskForm editingTask={editingTask} setEditingTask={setEditingTask} />);
+
+        fireEvent.change(screen.getByPlaceholderText('Título'), {
+            target: { value: 'Tarea actualizada' }
+        });
+        fireEvent.change(screen.getByPlaceholderText('Descripción'), {
+            target: { value: 'Descripción de tarea actualizada' }
+        });
+
+        fireEvent.submit(screen.getByRole('form'));
+
+        expect(mockUpdateTask).toHaveBeenCalledWith({
+            id: 1,
+            title: 'Tarea actualizada',
+            description: 'Descripción de tarea actualizada'
+        });
+        expect(setEditingTask).toHaveBeenCalledWith('');
     });
 });
-
-test('no llama a handleAddOrUpdateTask si los campos están vacíos', () => {
-    const mockHandleAddOrUpdateTask = jest.fn();
-
-    render(
-        <TaskForm
-            handleAddOrUpdateTask={mockHandleAddOrUpdateTask}
-            editingTask={null}
-            newTitle=""
-            newDescription=""
-            setNewTitle={jest.fn()}
-            setNewDescription={jest.fn()}
-        />
-    );
-
-    fireEvent.click(screen.getByRole('button'));
-
-    // Verifica que handleAddOrUpdateTask no se haya llamado
-    expect(mockHandleAddOrUpdateTask).not.toHaveBeenCalled();
-});
-
-
-
-
-
-
