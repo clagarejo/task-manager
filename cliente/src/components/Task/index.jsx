@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import './styles.css';
 import { FaEdit } from 'react-icons/fa';
 
@@ -14,5 +15,15 @@ function Tasks({ task, handleEditTask }) {
         </li>
     );
 }
+
+Tasks.propTypes = {
+    task: PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        status: PropTypes.string,
+    }).isRequired,
+    handleEditTask: PropTypes.func.isRequired,
+};
 
 export default Tasks;

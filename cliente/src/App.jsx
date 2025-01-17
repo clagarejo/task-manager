@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ErrorNotification from "@/components/ErrorNotification";
-import TaskForm from "@/components/TaskForm";
-import RenderColumn from "@/components/RenderColumn"; // Componente separado
+import RenderColumn from "@/components/RenderColumn"; 
 import { useTaskStore } from "@/store/useTaskStore";
 import "./styles.css";
 
