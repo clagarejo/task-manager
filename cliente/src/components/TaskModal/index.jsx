@@ -108,7 +108,7 @@ const TaskModal = ({ isOpen, onClose, onSave, onDelete, task, currentStatus }) =
                             onClick={handleSave}
                             disabled={isSaveDisabled}
                         >
-                            {task ? 'Save Changes' : 'Add Task'}
+                            {task ? 'Save Changes' : 'Add New Task'}
                         </button>
                     </div>
                 </div>

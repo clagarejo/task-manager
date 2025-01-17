@@ -12,17 +12,6 @@ function App() {
     fetchTasks();
   }, [fetchTasks]);
 
-  const handleAddTask = (status) => {
-    const title = prompt("Enter the title of the new task:");
-    const description = prompt("Enter the description of the new task:");
-
-    if (title && description) {
-      addTask({ title, description, status });
-    } else {
-      alert("Both title and description are required to create a new task.");
-    }
-  };
-
   return (
     <div className="tasks-container">
       <h1>Task Manager</h1>
@@ -36,7 +25,6 @@ function App() {
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
-          onAddTask={() => handleAddTask("backlog")}
         />
         <RenderColumn
           title="To Do"
@@ -45,7 +33,6 @@ function App() {
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
-          onAddTask={() => handleAddTask("todo")}
         />
         <RenderColumn
           title="In Progress"
@@ -54,7 +41,6 @@ function App() {
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
-          onAddTask={() => handleAddTask("inprogress")}
         />
         <RenderColumn
           title="Done"
@@ -63,7 +49,6 @@ function App() {
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
-          onAddTask={() => handleAddTask("done")}
         />
       </div>
     </div>

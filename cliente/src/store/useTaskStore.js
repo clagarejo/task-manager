@@ -6,25 +6,22 @@ export const useTaskStore = create((set) => ({
     error: null,
     loading: false,
 
+    // Obtener tareas del backend
     fetchTasks: async () => {
         set({ loading: true, error: null });
         try {
-            const response = await taskServices.getTasks();
-    
-            const tasksWithStatus = response.data.map((task) => ({
-                ...task,
-                status: "backlog",
-            }));
-    
-            set({ tasks: tasksWithStatus });
+            const response = await taskServices.getTasks();  // Asegúrate de que la respuesta tenga 'status'
+            console.log(response.data, "Tareas con estado asignado");
+            set({ tasks: response.data });  // Las tareas deben tener el 'status' correcto ahora
         } catch (error) {
             set({ error: "Error al cargar las tareas." });
         } finally {
             set({ loading: false });
         }
     },
-    
 
+
+    // Agregar una nueva tarea
     addTask: async (task) => {
         set({ error: null });
         try {
@@ -35,6 +32,7 @@ export const useTaskStore = create((set) => ({
         }
     },
 
+    // Eliminar una tarea
     deleteTask: async (taskId) => {
         set({ error: null });
         try {
@@ -47,6 +45,7 @@ export const useTaskStore = create((set) => ({
         }
     },
 
+    // Actualizar una tarea (incluye el estado `status`)
     updateTask: async (updatedTask) => {
         set({ error: null });
         try {
@@ -61,5 +60,22 @@ export const useTaskStore = create((set) => ({
         }
     },
 
+    // Mover una tarea a otra columna (actualiza el estado)
+    moveTask: async (taskId, newStatus) => {
+        set({ error: null });
+        try {
+            const taskToUpdate = { id: taskId, status: newStatus };
+            const response = await taskServices.updateTask(taskToUpdate); // Llama a la API para actualizar el estado
+            set((state) => ({
+                tasks: state.tasks.map((task) =>
+                    task.id === taskId ? response.data : task
+                ),
+            }));
+        } catch (error) {
+            set({ error: "Error al mover la tarea." });
+        }
+    },
+
+    // Limpiar errores
     clearError: () => set({ error: null }),
 }));

@@ -5,7 +5,7 @@ import Tasks from "@/components/Task";
 import TaskModal from '../TaskModal'
 import './styles.css';
 
-function RenderColumn({ title, tasks, filterStatus, loading, deleteTask, onAddTask }) {
+function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState(null);
 
@@ -24,6 +24,15 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask, onAddTa
         } else {
         }
         setIsModalOpen(false);
+    };
+
+    const handleDeleteTask = async (taskId) => {
+        try {
+            await deleteTask(taskId); 
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Error deleting task:", error);
+        }
     };
 
     const filteredTasks = tasks.filter((task) => task.status === filterStatus);
@@ -54,6 +63,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask, onAddTa
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onSave={handleSaveTask}
+                onDelete={handleDeleteTask}
                 task={taskToEdit}
                 currentStatus={filterStatus}
             />
@@ -67,7 +77,6 @@ RenderColumn.propTypes = {
     filterStatus: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     deleteTask: PropTypes.func.isRequired,
-    onAddTask: PropTypes.func.isRequired,
 };
 
 export default RenderColumn;
