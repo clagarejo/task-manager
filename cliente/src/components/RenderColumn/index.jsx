@@ -10,7 +10,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState(null);
     const [currentStatus, setCurrentStatus] = useState('Selecciona una opción');
-    const { addTask, updateTask } = useTaskStore();
+    const { addTask, updateTask, moveTask } = useTaskStore();
 
     const handleAddTask = (status) => {
         const statusString = typeof status === 'string' ? status : status?.name || 'Selecciona una opción';
@@ -20,17 +20,26 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     };
 
     const handleEditTask = (task) => {
-        console.log(task, 'debe terner id')
         setTaskToEdit(task);
         setIsModalOpen(true);
     };
 
     const handleSaveTask = updatedTask => {
         if (taskToEdit) {
+            updatedTask.id = taskToEdit.id;
             updateTask(updatedTask);
         } else {
             addTask(updatedTask);
         }
+
+        // Validar si el status es diferente de "Selecciona una opción" antes de mover la tarea
+        if (currentStatus !== 'Selecciona una opción') {
+            moveTask(updatedTask, currentStatus);
+        }
+
+        setTaskToEdit(null);
+        setCurrentStatus('Selecciona una opción');  // Limpiar el estado
+
         setIsModalOpen(false);
     };
 
@@ -57,7 +66,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
                     <ul>
                         {filteredTasks.map((task, index) => (
                             <Tasks
-                                key={`${task.id}-${index}`}
+                                key={task.id || index}
                                 task={task}
                                 handleEditTask={handleEditTask}
                             />

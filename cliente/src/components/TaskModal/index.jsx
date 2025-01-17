@@ -31,7 +31,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
     };
 
     const getColumnOptions = () => {
-        const allStatuses = ['backlog', 'todo', 'in-progress', 'done'];
+        const allStatuses = ['backlog', 'todo', 'inprogress', 'done'];
         return allStatuses.filter((option) => option !== status); 
     };
 

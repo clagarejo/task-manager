@@ -19,12 +19,12 @@ export const useTaskStore = create((set) => ({
     },
 
     addTask: async (task) => {
+        set({ error: null });
         try {
-            const newTask = { id: Date.now(), ...task };
-            console.log("Nueva tarea creada:", newTask); // Verifica que la tarea tiene un id
-            set((state) => ({ tasks: [...state.tasks, newTask] }));
+            const response = await taskServices.addTask(task);
+            set((state) => ({ tasks: [...state.tasks, response.data] }));
         } catch (error) {
-            console.error('Error adding task', error);
+            set({ error: "Error al agregar la tarea." });
         }
     },
 
@@ -32,15 +32,6 @@ export const useTaskStore = create((set) => ({
     updateTask: async (updatedTask) => {
         set({ error: null });
         try {
-            console.log('ID de la tarea a actualizar:', updatedTask.id); // Verificar el id
-            // Verificar que el id es un número válido
-            const taskId = parseInt(updatedTask.id, 10);
-            if (isNaN(taskId)) {
-                throw new Error('ID no válido');
-            }
-
-            updatedTask.id = taskId;
-
             const response = await taskServices.updateTask(updatedTask);
             set((state) => ({
                 tasks: state.tasks.map((task) =>
@@ -51,8 +42,6 @@ export const useTaskStore = create((set) => ({
             set({ error: "Error al actualizar la tarea." });
         }
     },
-
-
 
     deleteTask: async (taskId) => {
         try {
@@ -66,7 +55,6 @@ export const useTaskStore = create((set) => ({
 
 
 
-    // Mover una tarea a otra columna (actualiza el estado)
     moveTask: async (taskId, newStatus) => {
         set({ error: null });
         try {
