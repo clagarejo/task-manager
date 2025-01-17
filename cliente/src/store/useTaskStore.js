@@ -18,34 +18,29 @@ export const useTaskStore = create((set) => ({
         }
     },
 
-
     addTask: async (task) => {
-        set({ error: null });
         try {
-            const response = await taskServices.addTask(task);
-            console.log(response.data);
-            set((state) => ({ tasks: [...state.tasks, response.data] }));
+            const newTask = { id: Date.now(), ...task };
+            console.log("Nueva tarea creada:", newTask); // Verifica que la tarea tiene un id
+            set((state) => ({ tasks: [...state.tasks, newTask] }));
         } catch (error) {
-            set({ error: "Error al agregar la tarea." });
+            console.error('Error adding task', error);
         }
     },
 
-
-    deleteTask: async (taskId) => {
-        set({ error: null });
-        try {
-            await taskServices.deleteTask(taskId);
-            set((state) => ({
-                tasks: state.tasks.filter((task) => task.id !== taskId),
-            }));
-        } catch (error) {
-            set({ error: "Error al eliminar la tarea." });
-        }
-    },
 
     updateTask: async (updatedTask) => {
         set({ error: null });
         try {
+            console.log('ID de la tarea a actualizar:', updatedTask.id); // Verificar el id
+            // Verificar que el id es un número válido
+            const taskId = parseInt(updatedTask.id, 10);
+            if (isNaN(taskId)) {
+                throw new Error('ID no válido');
+            }
+
+            updatedTask.id = taskId;
+
             const response = await taskServices.updateTask(updatedTask);
             set((state) => ({
                 tasks: state.tasks.map((task) =>
@@ -56,6 +51,20 @@ export const useTaskStore = create((set) => ({
             set({ error: "Error al actualizar la tarea." });
         }
     },
+
+
+
+    deleteTask: async (taskId) => {
+        try {
+            set((state) => ({
+                tasks: state.tasks.filter((task) => task.id !== taskId),
+            }));
+        } catch (error) {
+            console.error('Error deleting task', error);
+        }
+    },
+
+
 
     // Mover una tarea a otra columna (actualiza el estado)
     moveTask: async (taskId, newStatus) => {

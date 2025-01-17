@@ -2,46 +2,38 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
 
-const TaskModal = ({ isOpen, onClose, onSave, onDelete, task, currentStatus }) => {
+const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [status, setStatus] = useState(currentStatus);
+    const [status, setStatus] = useState('Selecciona una opción');
 
     useEffect(() => {
         if (task) {
             setTitle(task.title);
             setDescription(task.description);
             setStatus(task.status);
+        } else {
+            setTitle('');
+            setDescription('');
+            setStatus(currentStatus); 
         }
-    }, [task]);
-
-    const getColumnOptions = () => {
-        if (currentStatus === 'backlog') {
-            return ['Selecciona una opción', 'To Do', 'In Progress', 'Done'];
-        }
-        if (currentStatus === 'todo') {
-            return ['Selecciona una opción', 'Backlog', 'In Progress', 'Done'];
-        }
-        if (currentStatus === 'in-progress') {
-            return ['Selecciona una opción', 'Backlog', 'To Do', 'Done'];
-        }
-        if (currentStatus === 'done') {
-            return ['Selecciona una opción', 'Backlog', 'To Do', 'In Progress'];
-        }
-        return [];
-    };
+    }, [task, currentStatus]);
 
     const handleSave = () => {
-        const updatedTask = {
-            title,
-            description,
-            status,
-        };
+        const updatedTask = { title, description, status };
         onSave(updatedTask);
-        onClose();
     };
 
-    const isSaveDisabled = !title || !description;
+    const handleDelete = () => {
+        if (task) {
+            onDelete(task.id);
+        }
+    };
+
+    const getColumnOptions = () => {
+        const allStatuses = ['backlog', 'todo', 'in-progress', 'done'];
+        return allStatuses.filter((option) => option !== status); 
+    };
 
     return (
         isOpen && (
@@ -81,6 +73,7 @@ const TaskModal = ({ isOpen, onClose, onSave, onDelete, task, currentStatus }) =
                                     onChange={(e) => setStatus(e.target.value)}
                                     style={{ width: '105%' }}
                                 >
+                                    <option value="Selecciona una opción">Selecciona una opción</option>
                                     {getColumnOptions().map((option) => (
                                         <option key={option} value={option}>
                                             {option}
@@ -93,20 +86,14 @@ const TaskModal = ({ isOpen, onClose, onSave, onDelete, task, currentStatus }) =
 
                     <div className="modal-footer">
                         {task && (
-                            <button
-                                className="delete-btn"
-                                onClick={() => {
-                                    onDelete(task);
-                                    onClose();
-                                }}
-                            >
+                            <button className="delete-btn" onClick={handleDelete}>
                                 Delete Task
                             </button>
                         )}
                         <button
                             className="save-btn"
                             onClick={handleSave}
-                            disabled={isSaveDisabled}
+                            disabled={!title || !description}
                         >
                             {task ? 'Save Changes' : 'Add New Task'}
                         </button>
@@ -120,9 +107,9 @@ const TaskModal = ({ isOpen, onClose, onSave, onDelete, task, currentStatus }) =
 TaskModal.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    task: PropTypes.object,
     onSave: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    task: PropTypes.object,
     currentStatus: PropTypes.string.isRequired,
 };
 

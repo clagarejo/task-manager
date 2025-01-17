@@ -5,7 +5,7 @@ import { useTaskStore } from "@/store/useTaskStore";
 import "./styles.css";
 
 function App() {
-  const { tasks, error, fetchTasks, addTask, loading, deleteTask } = useTaskStore();
+  const { tasks, error, fetchTasks, loading, deleteTask } = useTaskStore();
   const [editingTask, setEditingTask] = useState(null);
 
   useEffect(() => {

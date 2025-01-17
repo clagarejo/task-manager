@@ -2,33 +2,43 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaPlus } from 'react-icons/fa';
 import Tasks from "@/components/Task";
-import TaskModal from '../TaskModal'
+import TaskModal from '../TaskModal';
 import './styles.css';
+import { useTaskStore } from '@/store/useTaskStore';
 
 function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskToEdit, setTaskToEdit] = useState(null);
+    const [currentStatus, setCurrentStatus] = useState('Selecciona una opción');
+    const { addTask, updateTask } = useTaskStore();
 
-    const handleAddTask = () => {
+    const handleAddTask = (status) => {
+        const statusString = typeof status === 'string' ? status : status?.name || 'Selecciona una opción';
         setTaskToEdit(null);
         setIsModalOpen(true);
+        setCurrentStatus(statusString);
     };
 
     const handleEditTask = (task) => {
+        console.log(task, 'debe terner id')
         setTaskToEdit(task);
         setIsModalOpen(true);
     };
 
-    const handleSaveTask = (updatedTask) => {
+    const handleSaveTask = updatedTask => {
         if (taskToEdit) {
+            updateTask(updatedTask);
         } else {
+            addTask(updatedTask);
         }
         setIsModalOpen(false);
     };
 
+
+
     const handleDeleteTask = async (taskId) => {
         try {
-            await deleteTask(taskId); 
+            await deleteTask(taskId);
             setIsModalOpen(false);
         } catch (error) {
             console.error("Error deleting task:", error);
@@ -55,7 +65,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
                     </ul>
                 ) : null}
             </section>
-            <button className={`add-task-btn ${filterStatus}`} onClick={handleAddTask}>
+            <button className={`add-task-btn ${filterStatus}`} onClick={() => handleAddTask(filterStatus)}>
                 <FaPlus /> Add New Task
             </button>
 
@@ -65,7 +75,8 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
                 onSave={handleSaveTask}
                 onDelete={handleDeleteTask}
                 task={taskToEdit}
-                currentStatus={filterStatus}
+                currentStatus={currentStatus}
+
             />
         </div>
     );
