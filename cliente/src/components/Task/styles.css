@@ -1,35 +1,44 @@
 .task-card {
+    position: relative;
     background-color: #fff;
     border-radius: 8px;
     margin: 12px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     width: 90%;
+    padding: 12px;
 }
 
 .task-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.task-card div {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.task-card strong {
+.task-card strong,
+p {
     font-size: 1.2rem;
     color: #333333;
-    margin-bottom: 4px;
 }
 
-.task-card p {
-    font-size: 1rem;
-    color: #555555;
-    line-height: 1.5;
+.task-header {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.task-card:hover .task-header {
+    opacity: 1;
+}
+
+.edit-icon {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #50a3fc;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: #0056b3;
 }
 
 @media (max-width: 768px) {

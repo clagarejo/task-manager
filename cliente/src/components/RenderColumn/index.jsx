@@ -1,5 +1,6 @@
 import Tasks from "@/components/Task";
 import PropTypes from "prop-types";
+import { FaPlus } from "react-icons/fa";  // Importando el ícono de '+'
 import './styles.css'
 
 function RenderColumn({ title, tasks, filterStatus, loading, deleteTask, setEditingTask, onAddTask }) {
@@ -22,12 +23,10 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask, setEdit
                             />
                         ))}
                     </ul>
-                ) : (
-                    <p>No tasks in this column</p>
-                )}
+                ) : null}
             </section>
-            <button className="add-task-btn" onClick={onAddTask}>
-                Add New Task
+            <button className={`add-task-btn ${filterStatus}`} onClick={onAddTask}>
+                <FaPlus /> Add New Task 
             </button>
         </div>
     );
