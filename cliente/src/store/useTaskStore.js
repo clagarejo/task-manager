@@ -6,13 +6,11 @@ export const useTaskStore = create((set) => ({
     error: null,
     loading: false,
 
-    // Obtener tareas del backend
     fetchTasks: async () => {
         set({ loading: true, error: null });
         try {
-            const response = await taskServices.getTasks();  // Asegúrate de que la respuesta tenga 'status'
-            console.log(response.data, "Tareas con estado asignado");
-            set({ tasks: response.data });  // Las tareas deben tener el 'status' correcto ahora
+            const response = await taskServices.getTasks();
+            set({ tasks: response.data });
         } catch (error) {
             set({ error: "Error al cargar las tareas." });
         } finally {
@@ -21,18 +19,18 @@ export const useTaskStore = create((set) => ({
     },
 
 
-    // Agregar una nueva tarea
     addTask: async (task) => {
         set({ error: null });
         try {
             const response = await taskServices.addTask(task);
+            console.log(response.data);
             set((state) => ({ tasks: [...state.tasks, response.data] }));
         } catch (error) {
             set({ error: "Error al agregar la tarea." });
         }
     },
 
-    // Eliminar una tarea
+
     deleteTask: async (taskId) => {
         set({ error: null });
         try {
@@ -45,7 +43,6 @@ export const useTaskStore = create((set) => ({
         }
     },
 
-    // Actualizar una tarea (incluye el estado `status`)
     updateTask: async (updatedTask) => {
         set({ error: null });
         try {
@@ -76,6 +73,5 @@ export const useTaskStore = create((set) => ({
         }
     },
 
-    // Limpiar errores
     clearError: () => set({ error: null }),
 }));
