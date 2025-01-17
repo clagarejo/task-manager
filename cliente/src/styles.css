@@ -1,8 +1,14 @@
+:root {
+  font-family: 'Roboto', sans-serif;
+}
+
 body {
   box-sizing: border-box;
   background-color: #e9f5ff;
   padding: 20px;
 }
+
+
 
 h1 {
   margin-left: 15px;
@@ -11,6 +17,3 @@ h1 {
 .board {
   display: flex;
 }
-
-
-

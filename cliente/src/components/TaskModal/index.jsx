@@ -5,7 +5,7 @@ import './styles.css';
 const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('Selecciona una opción');
+    const [status, setStatus] = useState(currentStatus);
 
     useEffect(() => {
         if (task) {
@@ -15,7 +15,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
         } else {
             setTitle('');
             setDescription('');
-            setStatus(currentStatus); 
+            setStatus(currentStatus);
         }
     }, [task, currentStatus]);
 
@@ -23,6 +23,8 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
         const updatedTask = { title, description, status };
         onSave(updatedTask);
     };
+
+
 
     const handleDelete = () => {
         if (task) {
@@ -32,7 +34,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
 
     const getColumnOptions = () => {
         const allStatuses = ['backlog', 'todo', 'inprogress', 'done'];
-        return allStatuses.filter((option) => option !== status); 
+        return allStatuses.filter((option) => option !== status);
     };
 
     return (
@@ -67,13 +69,13 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
 
                         {task && (
                             <label>
-                                Move Task to:
+                                Task Status:
                                 <select
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
                                     style={{ width: '105%' }}
                                 >
-                                    <option value="Selecciona una opción">Selecciona una opción</option>
+                                    <option>{status}</option>
                                     {getColumnOptions().map((option) => (
                                         <option key={option} value={option}>
                                             {option}
@@ -82,6 +84,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
                                 </select>
                             </label>
                         )}
+
                     </div>
 
                     <div className="modal-footer">
@@ -93,7 +96,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
                         <button
                             className="save-btn"
                             onClick={handleSave}
-                            disabled={!title || !description}
+                            disabled={!title || !description || status === 'Selecciona una opción'}
                         >
                             {task ? 'Save Changes' : 'Add New Task'}
                         </button>

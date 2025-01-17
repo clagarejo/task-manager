@@ -1,7 +1,6 @@
 .column {
     border-radius: 8px;
     margin: 0 1rem;
-    border: 2px solid #ccc;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -94,20 +93,47 @@ p {
 
 .add-task-btn.backlog {
     background-color: #dcd8ff;
-    border-color:#b9b4e9;
+    border-color: #b9b4e9;
+    color: #9c93e8;
 }
 
 .add-task-btn.todo {
     background-color: #cfe7fc;
-    border-color:#a2c6f6;
+    border-color: #a2c6f6;
+    color: #2196f3;
 }
 
 .add-task-btn.inprogress {
     background-color: #fdf0dc;
-    border-color:#f1d29c;
+    border-color: #f1d29c;
+    color: #ffc107;
 }
 
 .add-task-btn.done {
     background-color: #ecfae3;
-    border-color:#b7e6b3;
+    border-color: #b7e6b3;
+    color: rgb(78, 194, 82);
+}
+
+.column-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.backlog .column-title {
+    color: #9c93e8;
+}
+
+.todo .column-title {
+    color: #2196f3;
+}
+
+.inprogress .column-title {
+    color: #ffc107;
+}
+
+.done .column-title {
+    color: rgb(78, 194, 82);
 }

@@ -24,24 +24,24 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
         setIsModalOpen(true);
     };
 
-    const handleSaveTask = updatedTask => {
+    const handleSaveTask = (updatedTask) => {
         if (taskToEdit) {
             updatedTask.id = taskToEdit.id;
-            updateTask(updatedTask);
+            if (updatedTask.status !== taskToEdit.status) {
+                moveTask(updatedTask.id, updatedTask.status);
+            } else {
+                updateTask(updatedTask);
+            }
         } else {
+            updatedTask.status = currentStatus;
             addTask(updatedTask);
         }
 
-        // Validar si el status es diferente de "Selecciona una opción" antes de mover la tarea
-        if (currentStatus !== 'Selecciona una opción') {
-            moveTask(updatedTask, currentStatus);
-        }
-
         setTaskToEdit(null);
-        setCurrentStatus('Selecciona una opción');  // Limpiar el estado
-
+        setCurrentStatus('Selecciona una opción');
         setIsModalOpen(false);
     };
+
 
 
 
@@ -58,8 +58,8 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
 
     return (
         <div className={`column ${filterStatus}`}>
-            <section>
-                <h2>{title}</h2>
+            <h2 className={`column-title ${filterStatus}`}>{title}</h2>
+            <section className={filteredTasks ? 'margin-bottom: 10px' : ''}>
                 {loading ? (
                     <p>Loading...</p>
                 ) : filteredTasks.length > 0 ? (
@@ -85,7 +85,6 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
                 onDelete={handleDeleteTask}
                 task={taskToEdit}
                 currentStatus={currentStatus}
-
             />
         </div>
     );

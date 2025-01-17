@@ -22,12 +22,13 @@
 
 .close-btn {
     position: absolute;
-    top: 10px;
+    top: 30px;
     right: 10px;
     background: transparent;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+    color: rgb(225, 169, 169);
 }
 
 .modal-body label {
@@ -49,6 +50,7 @@ select {
 textarea {
     resize: none;
     height: 80px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .modal-footer {
@@ -85,3 +87,4 @@ textarea {
 .delete-btn:hover {
     background-color: #c82333;
 }
+

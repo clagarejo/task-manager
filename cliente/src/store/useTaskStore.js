@@ -59,7 +59,7 @@ export const useTaskStore = create((set) => ({
         set({ error: null });
         try {
             const taskToUpdate = { id: taskId, status: newStatus };
-            const response = await taskServices.updateTask(taskToUpdate); // Llama a la API para actualizar el estado
+            const response = await taskServices.updateTask(taskToUpdate);
             set((state) => ({
                 tasks: state.tasks.map((task) =>
                     task.id === taskId ? response.data : task
