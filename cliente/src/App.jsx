@@ -21,7 +21,7 @@ function App() {
         <RenderColumn
           title="Backlog"
           tasks={tasks}
-          filterStatus="backlog"
+          filterStatus="Backlog"
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
@@ -29,7 +29,7 @@ function App() {
         <RenderColumn
           title="To Do"
           tasks={tasks}
-          filterStatus="todo"
+          filterStatus="ToDo"
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
@@ -37,7 +37,7 @@ function App() {
         <RenderColumn
           title="In Progress"
           tasks={tasks}
-          filterStatus="inprogress"
+          filterStatus="InProgress"
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}
@@ -45,7 +45,7 @@ function App() {
         <RenderColumn
           title="Done"
           tasks={tasks}
-          filterStatus="done"
+          filterStatus="Done"
           loading={loading}
           deleteTask={deleteTask}
           setEditingTask={setEditingTask}

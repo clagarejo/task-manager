@@ -13,7 +13,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     const { addTask, updateTask, moveTask } = useTaskStore();
 
     const handleAddTask = (status) => {
-        const statusString = typeof status === 'string' ? status : status?.name || 'Selecciona una opción';
+        const statusString = typeof status === 'string' ? status : status?.name;
         setTaskToEdit(null);
         setIsModalOpen(true);
         setCurrentStatus(statusString);

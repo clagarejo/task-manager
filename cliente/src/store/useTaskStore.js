@@ -52,8 +52,7 @@ export const useTaskStore = create((set) => ({
             console.error('Error deleting task', error);
         }
     },
-
-
+    
 
     moveTask: async (taskId, newStatus) => {
         set({ error: null });

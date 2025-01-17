@@ -14,19 +14,19 @@ h2 {
     margin-left: 10px;
 }
 
-.column.backlog {
+.column.Backlog {
     background-color: #D3CEFF;
 }
 
-.column.todo {
+.column.ToDo {
     background-color: #C4E2FC;
 }
 
-.column.inprogress {
+.column.InProgress {
     background-color: #FAE9CE;
 }
 
-.column.done {
+.column.Done {
     background-color: #E9FFDA;
 }
 
@@ -91,25 +91,25 @@ p {
     color: inherit;
 }
 
-.add-task-btn.backlog {
+.add-task-btn.Backlog {
     background-color: #dcd8ff;
     border-color: #b9b4e9;
     color: #9c93e8;
 }
 
-.add-task-btn.todo {
+.add-task-btn.ToDo {
     background-color: #cfe7fc;
     border-color: #a2c6f6;
     color: #2196f3;
 }
 
-.add-task-btn.inprogress {
+.add-task-btn.InProgress {
     background-color: #fdf0dc;
     border-color: #f1d29c;
     color: #ffc107;
 }
 
-.add-task-btn.done {
+.add-task-btn.Done {
     background-color: #ecfae3;
     border-color: #b7e6b3;
     color: rgb(78, 194, 82);
@@ -122,18 +122,18 @@ p {
     text-transform: capitalize;
 }
 
-.backlog .column-title {
+.Backlog .column-title {
     color: #9c93e8;
 }
 
-.todo .column-title {
+.ToDo .column-title {
     color: #2196f3;
 }
 
-.inprogress .column-title {
+.InProgress .column-title {
     color: #ffc107;
 }
 
-.done .column-title {
+.Done .column-title {
     color: rgb(78, 194, 82);
 }

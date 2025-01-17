@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 let tasks = [
-    { id: 1, title: 'Tarea 1', description: 'Descripción de la tarea 1', status: 'todo' },
-    { id: 2, title: 'Tarea 2', description: 'Descripción de la tarea 2', status: 'backlog' },
+    { id: 1, title: 'Tarea 1', description: 'Descripción de la tarea 1', status: 'ToDo' },
+    { id: 2, title: 'Tarea 2', description: 'Descripción de la tarea 2', status: 'Backlog' },
 ];
 
 router.get('/tasks', (req, res) => {

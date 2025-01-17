@@ -24,8 +24,6 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
         onSave(updatedTask);
     };
 
-
-
     const handleDelete = () => {
         if (task) {
             onDelete(task.id);
@@ -33,8 +31,8 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
     };
 
     const getColumnOptions = () => {
-        const allStatuses = ['backlog', 'todo', 'inprogress', 'done'];
-        return allStatuses.filter((option) => option !== status);
+        const allStatuses = ['Backlog', 'ToDo', 'InProgress', 'Done'];
+        return allStatuses.filter((option) => option.toLowerCase() !== status.toLowerCase());
     };
 
     return (
@@ -75,7 +73,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
                                     onChange={(e) => setStatus(e.target.value)}
                                     style={{ width: '105%' }}
                                 >
-                                    <option>{status}</option>
+                                    <option value="">{status}</option>
                                     {getColumnOptions().map((option) => (
                                         <option key={option} value={option}>
                                             {option}
@@ -84,7 +82,6 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
                                 </select>
                             </label>
                         )}
-
                     </div>
 
                     <div className="modal-footer">
