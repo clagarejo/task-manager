@@ -42,7 +42,7 @@ body {
 }
 
 .register-section {
-    background-color: #007bff;
+    background-color: #C4E2FC;
     color: #fff;
 }
 
@@ -95,9 +95,8 @@ input::placeholder {
     color: #aaa;
 }
 
-/* Buttons */
 .btn {
-    background-color: #007bff;
+    background-color: #aad5fa;;
     color: #fff;
     padding: 15px 20px;
     margin: auto;
@@ -111,7 +110,7 @@ input::placeholder {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #4691d3;
     transform: scale(1.05);
 }
 
@@ -126,7 +125,6 @@ input::placeholder {
     color: #0056b3;
 }
 
-/* Additional Styles for Better UX */
 .input-group {
     display: flex;
     flex-direction: column;
