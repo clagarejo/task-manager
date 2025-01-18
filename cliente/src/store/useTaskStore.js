@@ -10,62 +10,79 @@ export const useTaskStore = create((set) => ({
         set({ loading: true, error: null });
         try {
             const response = await taskServices.getTasks();
-            set({ tasks: response.data });
+            const tasks = response.data.map((task) => ({
+                ...task,
+                id: task.id, 
+            }));
+            set({ tasks });
         } catch (error) {
-            set({ error: "Error al cargar las tareas." });
+            set({ error: 'Error al cargar las tareas.' });
         } finally {
             set({ loading: false });
         }
     },
 
+
     addTask: async (task) => {
         set({ error: null });
         try {
             const response = await taskServices.addTask(task);
-            set((state) => ({ tasks: [...state.tasks, response.data] }));
+            const newTask = {
+                ...response.data,
+                id: response.data.id,
+            };
+            set((state) => ({ tasks: [...state.tasks, newTask] }));
         } catch (error) {
-            set({ error: "Error al agregar la tarea." });
+            set({ error: 'Error al agregar la tarea.' });
         }
     },
-
 
     updateTask: async (updatedTask) => {
         set({ error: null });
         try {
             const response = await taskServices.updateTask(updatedTask);
+            const updated = {
+                ...response.data,
+                id: response.data.id,
+            };
             set((state) => ({
                 tasks: state.tasks.map((task) =>
-                    task.id === updatedTask.id ? response.data : task
+                    task.id === updatedTask.id ? updated : task
                 ),
             }));
         } catch (error) {
-            set({ error: "Error al actualizar la tarea." });
+            set({ error: 'Error al actualizar la tarea.' });
         }
     },
 
     deleteTask: async (taskId) => {
+        set({ error: null });
         try {
+            await taskServices.deleteTask(taskId);
             set((state) => ({
                 tasks: state.tasks.filter((task) => task.id !== taskId),
             }));
         } catch (error) {
-            console.error('Error deleting task', error);
+            set({ error: 'Error al eliminar la tarea.' });
         }
     },
-    
 
     moveTask: async (taskId, newStatus) => {
         set({ error: null });
         try {
             const taskToUpdate = { id: taskId, status: newStatus };
             const response = await taskServices.updateTask(taskToUpdate);
+            const updated = {
+                ...response.data,
+                id: response.data.id,
+            };
             set((state) => ({
                 tasks: state.tasks.map((task) =>
-                    task.id === taskId ? response.data : task
+                    task.id === taskId ? updated : task
                 ),
             }));
         } catch (error) {
-            set({ error: "Error al mover la tarea." });
+            set({ error: 'Error al mover la tarea.' });
         }
     },
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaPlus } from 'react-icons/fa';
-import Tasks from "@/components/Task";
+import Task from "@/components/Task";
 import TaskModal from '../TaskModal';
 import './styles.css';
 import { useTaskStore } from '@/store/useTaskStore';
@@ -27,6 +27,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     const handleSaveTask = (updatedTask) => {
         if (taskToEdit) {
             updatedTask.id = taskToEdit.id;
+
             if (updatedTask.status !== taskToEdit.status) {
                 moveTask(updatedTask.id, updatedTask.status);
             } else {
@@ -42,9 +43,6 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
         setIsModalOpen(false);
     };
 
-
-
-
     const handleDeleteTask = async (taskId) => {
         try {
             await deleteTask(taskId);
@@ -54,18 +52,30 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
         }
     };
 
-    const filteredTasks = tasks.filter((task) => task.status === filterStatus);
+    const filteredTasks = tasks
+        .filter((task) => task.status === filterStatus)
+        .map((task) => ({
+            ...task,
+            id: task.id || task._id
+        }));
+
+
 
     return (
         <div className={`column ${filterStatus}`}>
-            <h2 className={`column-title ${filterStatus}`}>{title}</h2>
+            <h2
+                className={`column-title ${filterStatus}`}
+                style={tasks ? { marginBottom: '1rem' } : {}}
+            >
+                {title}
+            </h2>            
             <section className={filteredTasks ? 'margin-bottom: 10px' : ''}>
                 {loading ? (
                     <p>Loading...</p>
                 ) : filteredTasks.length > 0 ? (
                     <ul>
                         {filteredTasks.map((task, index) => (
-                            <Tasks
+                            <Task
                                 key={task.id || index}
                                 task={task}
                                 handleEditTask={handleEditTask}

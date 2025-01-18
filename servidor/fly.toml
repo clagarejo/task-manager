@@ -8,6 +8,9 @@ primary_region = 'bog'
 
 [build]
 
+[env]
+  DB_CNN="mongodb+srv://yanlagarejo:PiplaWg1odLJFkmZ@task-manager.91dyl.mongodb.net/?retryWrites=true&w=majority&appName=task-manager"
+
 [http_service]
   internal_port = 3000
   force_https = true
