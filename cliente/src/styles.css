@@ -1,5 +1,7 @@
-:root {
+#root {
   font-family: 'Roboto', sans-serif;
+  width: 95%;
+  margin-top: -5%;
 }
 
 body {
@@ -16,4 +18,26 @@ h1 {
 
 .board {
   display: flex;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logout-container span {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.logout-container svg {
+  color: #f00;
+  /* Puedes cambiar el color según tus necesidades */
 }

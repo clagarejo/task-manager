@@ -1,8 +1,7 @@
-const express = require('express');
-const Task = require('./models/Task');
-const router = express.Router();
+const Task = require('../models/Task');
 
-router.get('/tasks', async (req, res) => {
+// Obtener todas las tareas
+const getTasks = async (req, res) => {
     try {
         const tasks = await Task.find().lean();
         const formattedTasks = tasks.map(task => ({
@@ -13,33 +12,35 @@ router.get('/tasks', async (req, res) => {
         }));
         res.json(formattedTasks);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener las tareas' });
+        res.status(500).json({ ok: false, msg: 'Error al obtener las tareas' });
     }
-});
+};
 
-router.post('/tasks', async (req, res) => {
+// Crear una nueva tarea
+const addTask = async (req, res) => {
     const { title, description, status } = req.body;
 
     if (!title || !description || !status) {
-        return res.status(400).json({ error: 'Todos los campos son requeridos' });
+        return res.status(400).json({ ok: false, msg: 'Todos los campos son requeridos' });
     }
 
     try {
         const newTask = new Task({ title, description, status });
         await newTask.save();
         res.status(201).json({
+            ok: true,
             id: newTask._id,
             title: newTask.title,
             description: newTask.description,
             status: newTask.status,
         });
     } catch (error) {
-        res.status(500).json({ error: 'Error al crear la tarea' });
+        res.status(500).json({ ok: false, msg: 'Error al crear la tarea' });
     }
-});
+};
 
-
-router.put('/tasks/:id', async (req, res) => {
+// Actualizar una tarea existente
+const updateTask = async (req, res) => {
     const { id } = req.params;
     const { title, description, status } = req.body;
 
@@ -51,36 +52,41 @@ router.put('/tasks/:id', async (req, res) => {
         );
 
         if (!task) {
-            return res.status(404).json({ error: 'Tarea no encontrada' });
+            return res.status(404).json({ ok: false, msg: 'Tarea no encontrada' });
         }
 
         res.json({
-            id: task._id, // Transformación de _id a id
+            ok: true,
+            id: task._id,
             title: task.title,
             description: task.description,
             status: task.status,
         });
     } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar la tarea' });
+        res.status(500).json({ ok: false, msg: 'Error al actualizar la tarea' });
     }
-});
+};
 
-
-router.delete('/tasks/:id', async (req, res) => {
+// Eliminar una tarea
+const deleteTask = async (req, res) => {
     const { id } = req.params;
 
     try {
         const task = await Task.findByIdAndDelete(id);
 
         if (!task) {
-            return res.status(404).json({ error: 'Tarea no encontrada' });
+            return res.status(404).json({ ok: false, msg: 'Tarea no encontrada' });
         }
 
-        res.json({ message: 'Tarea eliminada', id: task._id }); // Retorna el id eliminado
+        res.json({ ok: true, msg: 'Tarea eliminada', id: task._id }); // Retorna el id eliminado
     } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar la tarea' });
+        res.status(500).json({ ok: false, msg: 'Error al eliminar la tarea' });
     }
-});
+};
 
-
-module.exports = router;
+module.exports = {
+    getTasks,
+    addTask,
+    updateTask,
+    deleteTask
+};
