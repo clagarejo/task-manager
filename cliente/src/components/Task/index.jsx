@@ -1,24 +1,35 @@
-import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import React from 'react';
+import PropTypes from 'prop-types';
+import './styles.css';
+import { FaEdit } from 'react-icons/fa';
 
-import './styles.css'
-
-function Tasks({ task, handleDeleteTask, handleEditTask }) {
+function Task({ task, handleEditTask }) {
     return (
         <li className="task-card">
-            <div>
-                <strong>{task.title}</strong>: <p>{task.description}</p>
+            <div className="task-header">
+                <FaEdit
+                    className="edit-icon"
+                    onClick={() => handleEditTask(task)}
+                    title="Editar tarea"
+                />
             </div>
-            <div>
-                <button className="task-btn delete-btn" onClick={() => handleDeleteTask(task.id)}>
-                    <FaTrashAlt />
-                </button>
-                <button className="task-btn edit-btn" onClick={() => handleEditTask(task)}>
-                    <FaEdit />
-                </button>
-            </div>
-
+            <p>
+                <strong>{task.title}</strong> <br />
+                {task.description}
+            </p>
         </li>
     );
 }
 
-export default Tasks;
+Task.propTypes = {
+    task: PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        status: PropTypes.string,
+    }).isRequired,
+    handleEditTask: PropTypes.func.isRequired,
+};
+
+export default Task;

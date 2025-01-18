@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`debe coincidir con el snapshot 1`] = `
+exports[`TaskForm debe coincidir con el snapshot 1`] = `
 <DocumentFragment>
   <form
     class="task-form"
+    role="form"
   >
     <input
       class="task-input"
