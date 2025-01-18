@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore"; // Importa el store de autenticación
 import ErrorNotification from "@/components/ErrorNotification";
-import RenderColumn from "@/components/RenderColumn";
 import { useTaskStore } from "@/store/useTaskStore";
 import "./styles.css";
 import LoginRegister from "@/pages";
 import { FaSignOutAlt } from 'react-icons/fa';
+import TaskBoard from "@/components/TaskBoard";
 
 // Componente para proteger las rutas privadas
 function PrivateRoute({ children }) {
@@ -23,7 +23,7 @@ function PrivateRoute({ children }) {
 
 const handleLogout = () => {
   localStorage.removeItem('token');
-  window.location.href = '/'; 
+  window.location.href = '/';
 };
 
 function App() {
@@ -43,40 +43,7 @@ function App() {
         </div>
       </div>
       {error && <ErrorNotification message={error} />}
-      <div className="board">
-        <RenderColumn
-          title="Backlog"
-          tasks={tasks}
-          filterStatus="Backlog"
-          loading={loading}
-          deleteTask={deleteTask}
-          setEditingTask={setEditingTask}
-        />
-        <RenderColumn
-          title="To Do"
-          tasks={tasks}
-          filterStatus="ToDo"
-          loading={loading}
-          deleteTask={deleteTask}
-          setEditingTask={setEditingTask}
-        />
-        <RenderColumn
-          title="In Progress"
-          tasks={tasks}
-          filterStatus="InProgress"
-          loading={loading}
-          deleteTask={deleteTask}
-          setEditingTask={setEditingTask}
-        />
-        <RenderColumn
-          title="Done"
-          tasks={tasks}
-          filterStatus="Done"
-          loading={loading}
-          deleteTask={deleteTask}
-          setEditingTask={setEditingTask}
-        />
-      </div>
+      <TaskBoard />
     </div>
   );
 }
