@@ -1,0 +1,159 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 1200px;
+    max-width: 90%;
+    display: flex;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    margin: auto;
+    background-color: #fff;
+}
+
+/* Form Section */
+.form-container {
+    display: flex;
+    width: 100%;
+}
+
+.form-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.login-section {
+    background-color: #fff;
+    border-right: 2px solid #f0f0f0;
+}
+
+.register-section {
+    background-color: #C4E2FC;
+    color: #fff;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+.btn {
+    background-color: #aad5fa;;
+    color: #fff;
+    padding: 15px 20px;
+    margin: auto;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    width: 50%;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #4691d3;
+    transform: scale(1.05);
+}
+
+.register-section .btn {
+    background-color: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.register-section .btn:hover {
+    background-color: #f4f4f9;
+    color: #0056b3;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group input {
+    padding: 14px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.switch-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.switch-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.switch-link a:hover {
+    text-decoration: underline;
+}

@@ -1,19 +1,32 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./database/config');
-const app = express();
-const port = 3000;
+const path = require('path')
+const express = require('express')
+const  dbConnection  = require('./database/config')
+const cors = require('cors')
 require('dotenv').config()
+const PORT = 3000
 
-const taskRoutes = require('./routes');
+// Crear el servidor de express
+const app = express()
 
-app.use(cors());
-app.use(express.json());
+// Base de datos
+dbConnection()
 
-connectDB();
+//CORS
+app.use(cors())
 
-app.use(taskRoutes);
+// Directorio publico
+app.use(express.static('public'))
 
-app.listen(port, () => {
-    console.log(`Backend corriendo en http://localhost:${port}`);
-});
+// Lectura y parseo del body
+app.use(express.json())
+
+app.use('/api/auth', require('./routes/auth'))
+app.use('/api/tasks', require('./routes/task'))
+
+
+// Escuchar las peticiones
+app.listen(PORT, () => {
+    console.log(`servidor corriendo en ${PORT}`)
+})
+
+module.exports = app;

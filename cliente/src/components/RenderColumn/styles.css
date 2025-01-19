@@ -5,8 +5,8 @@
     flex-direction: column;
     padding: 10px;
     flex: 1;
-    min-height: 400px;
-    max-height: 450px;
+    min-height: 500px;
+    max-height: 550px;
     background-color: #f4f4f4;
 }
 
@@ -66,6 +66,8 @@ p {
 .column h2 {
     font-size: 1.5rem;
     color: #333;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .add-task-btn {
@@ -80,7 +82,6 @@ p {
     align-items: center;
     justify-content: center;
     width: 100%;
-    /* margin-top: 15px; */
 }
 
 .add-task-btn svg {
