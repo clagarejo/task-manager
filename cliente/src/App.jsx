@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRouter from "./Router";
-import './styles.css'
+import './styles.css';
 
 export const App = () => {
   return (

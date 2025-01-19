@@ -1,9 +1,10 @@
 const Task = require('../models/Task');
 
-// Obtener todas las tareas
 const getTasks = async (req, res) => {
+    const { userId } = req.query; 
+
     try {
-        const tasks = await Task.find().lean();
+        const tasks = await Task.find({ userId }).lean(); 
         const formattedTasks = tasks.map(task => ({
             id: task._id,
             title: task.title,
@@ -16,17 +17,18 @@ const getTasks = async (req, res) => {
     }
 };
 
-// Crear una nueva tarea
 const addTask = async (req, res) => {
-    const { title, description, status } = req.body;
+    const { title, description, status, userId } = req.body; 
 
-    if (!title || !description || !status) {
+    if (!title || !description || !status || !userId) {
         return res.status(400).json({ ok: false, msg: 'Todos los campos son requeridos' });
     }
 
     try {
-        const newTask = new Task({ title, description, status });
+        const newTask = new Task({ title, description, status, userId });
         await newTask.save();
+        console.log('Tarea guardada correctamente:', newTask);
+
         res.status(201).json({
             ok: true,
             id: newTask._id,
@@ -34,25 +36,26 @@ const addTask = async (req, res) => {
             description: newTask.description,
             status: newTask.status,
         });
+
     } catch (error) {
+        console.error('Error al guardar la tarea:', error);
         res.status(500).json({ ok: false, msg: 'Error al crear la tarea' });
     }
 };
 
-// Actualizar una tarea existente
 const updateTask = async (req, res) => {
     const { id } = req.params;
-    const { title, description, status } = req.body;
+    const { title, description, status, userId } = req.body;
 
     try {
-        const task = await Task.findByIdAndUpdate(
-            id,
+        const task = await Task.findOneAndUpdate(
+            { _id: id, userId },
             { title, description, status },
-            { new: true } // Retorna la tarea actualizada
+            { new: true } 
         );
 
         if (!task) {
-            return res.status(404).json({ ok: false, msg: 'Tarea no encontrada' });
+            return res.status(404).json({ ok: false, msg: 'Tarea no encontrada o no autorizada' });
         }
 
         res.json({
@@ -67,18 +70,19 @@ const updateTask = async (req, res) => {
     }
 };
 
-// Eliminar una tarea
 const deleteTask = async (req, res) => {
+    console.log(req, 'para eliminar')
     const { id } = req.params;
+    const { userId } = req.body;
 
     try {
-        const task = await Task.findByIdAndDelete(id);
+        const task = await Task.findOneAndDelete({ _id: id, userId });
 
         if (!task) {
-            return res.status(404).json({ ok: false, msg: 'Tarea no encontrada' });
+            return res.status(404).json({ ok: false, msg: 'Tarea no encontrada o no autorizada' });
         }
 
-        res.json({ ok: true, msg: 'Tarea eliminada', id: task._id }); // Retorna el id eliminado
+        res.json({ ok: true, msg: 'Tarea eliminada', id: task._id });
     } catch (error) {
         res.status(500).json({ ok: false, msg: 'Error al eliminar la tarea' });
     }
@@ -88,5 +92,5 @@ module.exports = {
     getTasks,
     addTask,
     updateTask,
-    deleteTask
+    deleteTask,
 };

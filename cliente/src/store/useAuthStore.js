@@ -1,70 +1,87 @@
 import { create } from "zustand";
-import * as authService from '@/services/authService';
+import taskApi from "@/api/taskApi";
 
 export const useAuthStore = create((set) => ({
-    user: null,
-    status: "idle", // 'idle', 'checking', 'authenticated', 'not-authenticated'
-    errorMessage: null,
+    // Estado inicial
+    status: 'not-authenticated', // El estado de autenticación (checking, authenticated, not-authenticated)
+    user: null,         // Usuario actual
+    errorMessage: null, // Mensaje de error
 
-    // Login
+    // Método de inicio de sesión
     startLogin: async ({ email, password }) => {
-        set({ status: "checking", errorMessage: null });
+        set({ status: 'checking' });
         try {
-            const { token, name, uid } = await authService.loginUser(email, password);
-            localStorage.setItem("token", token);
-            localStorage.setItem("token-init-date", new Date().getTime());
-            set({ user: { name, uid }, status: "authenticated" });
-            return Promise.resolve();
+            const { data } = await taskApi.post('/auth', { email, password });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            set({
+                user: { name: data.name, uid: data.uid },
+                status: 'authenticated',
+            });
         } catch (error) {
-            const errorMsg = error.message || "Error al iniciar sesión";
-            set({ status: "not-authenticated", errorMessage: errorMsg });
-            setTimeout(() => set({ errorMessage: null }), 5000); // Limpia el mensaje de error
-            return Promise.reject(errorMsg);
+            set({
+                errorMessage: 'Credenciales incorrectas',
+                status: 'not-authenticated',
+            });
+            setTimeout(() => {
+                set({ errorMessage: null });
+            }, 10);
         }
     },
 
-    // Registro
+    // Método de registro
     startRegister: async ({ name, email, password }) => {
-        set({ status: "checking", errorMessage: null });
-        console.log(email, 'en el store')
-
+        set({ status: 'checking' });
         try {
-            const { token, user } = await authService.registerUser(name, email, password);
-            localStorage.setItem("token", token);
-            localStorage.setItem("token-init-date", new Date().getTime());
-            set({ user, status: "authenticated" });
-            return Promise.resolve();
+            const { data } = await taskApi.post('/auth/new', { name, email, password });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            set({
+                user: { name: data.name, uid: data.uid },
+                status: 'authenticated',
+            });
         } catch (error) {
-            const errorMsg = error.message || "Error al registrar usuario";
-            set({ status: "not-authenticated", errorMessage: errorMsg });
-            setTimeout(() => set({ errorMessage: null }), 5000); // Limpia el mensaje de error
-            return Promise.reject(errorMsg);
+            set({
+                errorMessage: error.response?.data?.msg || 'Error con los datos ingresados',
+                status: 'not-authenticated',
+            });
+            setTimeout(() => {
+                set({ errorMessage: null });
+            }, 10);
         }
     },
 
-    // Verificación del token
-    checkAuthToken: async () => {
-        const token = localStorage.getItem("token");
 
+
+    // Método para verificar el token de autenticación
+    checkAuthToken: async () => {
+        const token = localStorage.getItem('token');
         if (!token) {
-            set({ user: null, status: "not-authenticated" });
+            set({ status: 'not-authenticated', user: null });
             return;
         }
 
         try {
-            const { token: newToken, name, uid } = await authService.renewToken(token);
-            localStorage.setItem("token", newToken);
-            localStorage.setItem("token-init-date", new Date().getTime());
-            set({ user: { name, uid }, status: "authenticated" });
+            const { data } = await taskApi.get('/auth/renew', {
+                headers: {
+                    'x-token': token,
+                },
+            });
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('token-init-date', new Date().getTime());
+            set({
+                user: { name: data.name, uid: data.uid },
+                status: 'authenticated',
+            });
         } catch (error) {
             localStorage.clear();
-            set({ user: null, status: "not-authenticated" });
+            set({ status: 'not-authenticated', user: null });
         }
     },
 
-    // Logout
+    // Método para cerrar sesión
     startLogout: () => {
         localStorage.clear();
-        set({ user: null, status: "not-authenticated" });
+        set({ status: 'not-authenticated', user: null, errorMessage: null });
     },
 }));

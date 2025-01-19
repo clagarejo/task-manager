@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useState } from "react";
 
-import './styles.css'
+import './styles.css';
 
-function LoginRegister () {
+function LoginRegister() {
     const { startLogin, startRegister, errorMessage, status } = useAuthStore();
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
@@ -13,20 +13,16 @@ function LoginRegister () {
     const [registerPassword, setRegisterPassword] = useState('');
     const navigate = useNavigate();
 
-    const handleLoginSubmit = (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
-        startLogin({ email: loginEmail, password: loginPassword })
-            .then(() => {
-                navigate("/tasks");
-            });
+        await startLogin({ email: loginEmail, password: loginPassword });
+        navigate("/tasks");
     };
 
-    const handleRegisterSubmit = (e) => {
+    const handleRegisterSubmit = async (e) => {
         e.preventDefault();
-        startRegister({ name: registerName, email: registerEmail, password: registerPassword })
-            .then(() => {
-                navigate("/tasks");
-            });
+        await startRegister({ name: registerName, email: registerEmail, password: registerPassword });
+        navigate("/tasks");
     };
 
     return (

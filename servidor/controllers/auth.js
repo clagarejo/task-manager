@@ -1,4 +1,4 @@
-const Usuario = require('../models/Usuario');
+const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
@@ -8,7 +8,7 @@ const crearUsuario = async (req, res = response) => {
 
     try {
         // Verifica si el usuario ya existe
-        let usuario = await Usuario.findOne({ email });
+        let usuario = await User.findOne({ email });
 
         if (usuario) {
             return res.status(400).json({
@@ -18,7 +18,7 @@ const crearUsuario = async (req, res = response) => {
         }
 
         // Crear un nuevo usuario
-        usuario = new Usuario(req.body);
+        usuario = new User(req.body);
 
         // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
@@ -53,7 +53,7 @@ const loginUsuario = async (req, res = response) => {
 
     try {
         // Buscar el usuario en la base de datos con el email proporcionado
-        const usuario = await Usuario.findOne({ email });
+        const usuario = await User.findOne({ email });
 
         if (!usuario) {
             // Si no se encuentra el usuario, responder con un error
