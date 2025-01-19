@@ -36,6 +36,7 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
     const handleDelete = () => {
         if (task) {
             onDelete(task.id);
+            onClose()
         }
     };
 

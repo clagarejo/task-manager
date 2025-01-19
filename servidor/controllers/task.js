@@ -69,7 +69,6 @@ const updateTask = async (req, res) => {
 };
 
 const deleteTask = async (req, res) => {
-    console.log(req, 'para eliminar')
     const { id } = req.params;
     const { userId } = req.body;
 
