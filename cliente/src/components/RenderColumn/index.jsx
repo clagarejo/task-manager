@@ -5,6 +5,7 @@ import Task from "@/components/Task";
 import TaskModal from '../TaskModal';
 import './styles.css';
 import { useTaskStore } from '@/store/useTaskStore';
+import Swal from 'sweetalert2';
 
 function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +26,15 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
     };
 
     const handleSaveTask = (updatedTask) => {
+        if (!updatedTask.title || !updatedTask.description || !updatedTask.status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Todos los campos son requeridos.',
+            });
+            return;
+        }
+
         if (taskToEdit) {
             updatedTask.id = taskToEdit.id;
 
@@ -59,8 +69,6 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
             id: task.id || task._id
         }));
 
-
-
     return (
         <div className={`column ${filterStatus}`}>
             <h2
@@ -68,10 +76,10 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
                 style={tasks ? { marginBottom: '1rem' } : {}}
             >
                 {title}
-            </h2>            
+            </h2>
             <section className={filteredTasks ? 'margin-bottom: 10px' : ''}>
                 {loading ? (
-                    <p>Loading...</p>
+                    <p>Cargando...</p>
                 ) : filteredTasks.length > 0 ? (
                     <ul>
                         {filteredTasks.map((task, index) => (
@@ -85,7 +93,7 @@ function RenderColumn({ title, tasks, filterStatus, loading, deleteTask }) {
                 ) : null}
             </section>
             <button className={`add-task-btn ${filterStatus}`} onClick={() => handleAddTask(filterStatus)}>
-                <FaPlus /> Add New Task
+                <FaPlus /> Agregar nueva tarea
             </button>
 
             <TaskModal

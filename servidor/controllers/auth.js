@@ -2,12 +2,11 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
-const crearUsuario = async (req, res = response) => {
+const createUsers = async (req, res = response) => {
 
     const { email, password } = req.body;
 
     try {
-        // Verifica si el usuario ya existe
         let usuario = await User.findOne({ email });
 
         if (usuario) {
@@ -17,14 +16,11 @@ const crearUsuario = async (req, res = response) => {
             });
         }
 
-        // Crear un nuevo usuario
         usuario = new User(req.body);
 
-        // Encriptar contraseña
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
 
-        // Guardar el nuevo usuario en la base de datos
         await usuario.save();
 
         // Generar JWT
@@ -38,8 +34,6 @@ const crearUsuario = async (req, res = response) => {
         });
 
     } catch (error) {
-        // Muestra el error exacto
-        console.log('Error en la creación del usuario:', error);
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
@@ -48,26 +42,22 @@ const crearUsuario = async (req, res = response) => {
 }
 
 
-const loginUsuario = async (req, res = response) => {
+const loginUsers = async (req, res = response) => {
     const { email, password } = req.body;
 
     try {
-        // Buscar el usuario en la base de datos con el email proporcionado
         const usuario = await User.findOne({ email });
 
         if (!usuario) {
-            // Si no se encuentra el usuario, responder con un error
             return res.status(400).json({
                 ok: false,
                 msg: 'Credenciales incorrectas'
             });
         }
 
-        // Comparar las contraseñas
         const validPassword = bcrypt.compareSync(password, usuario.password);
 
         if (!validPassword) {
-            // Si la contraseña no es válida, responder con un error
             return res.status(400).json({
                 ok: false,
                 msg: 'Contraseña incorrecta'
@@ -77,7 +67,6 @@ const loginUsuario = async (req, res = response) => {
         // Generar el JWT
         const token = await generarJWT(usuario.id, usuario.name);
 
-        // Responder con los datos del usuario y el token
         res.json({
             ok: true,
             uid: usuario.id,
@@ -86,8 +75,6 @@ const loginUsuario = async (req, res = response) => {
         });
 
     } catch (error) {
-        // Capturar cualquier error y responder con el mensaje adecuado
-        console.log('Error en el proceso de login:', error);
         res.status(500).json({
             ok: false,
             msg: 'No se ha encontrado un usuario con esas credenciales'
@@ -96,7 +83,7 @@ const loginUsuario = async (req, res = response) => {
 };
 
 
-const revalidarToken = async (req, res = response) => {
+const revalidateToken = async (req, res = response) => {
 
     const { uid, name } = req
 
@@ -113,7 +100,7 @@ const revalidarToken = async (req, res = response) => {
 }
 
 module.exports = {
-    crearUsuario,
-    loginUsuario,
-    revalidarToken
+    createUsers,
+    loginUsers,
+    revalidateToken
 }

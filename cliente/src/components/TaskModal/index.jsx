@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
+import Swal from 'sweetalert2';
 
 const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) => {
     const [title, setTitle] = useState('');
@@ -20,6 +21,14 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
     }, [task, currentStatus]);
 
     const handleSave = () => {
+        if (!title || !description || !status) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Todos los campos son requeridos.',
+            });
+            return;
+        }
         const updatedTask = { title, description, status };
         onSave(updatedTask);
     };
@@ -42,32 +51,32 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
                     <button className="close-btn" onClick={onClose}>
                         X
                     </button>
-                    <h2>{task ? 'Edit Task' : 'Add New Task'}</h2>
+                    <h2>{task ? 'Editar tarea' : 'Agregar nueva tarea'}</h2>
 
                     <div className="modal-body">
                         <label>
-                            Title:
+                            Título:
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                placeholder="Enter task title"
+                                placeholder="Título"
                                 style={{ width: '100%' }}
                             />
                         </label>
                         <label>
-                            Description:
+                            Descripción:
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Enter task description"
+                                placeholder="Descripción"
                                 style={{ width: '100%' }}
                             />
                         </label>
 
                         {task && (
                             <label>
-                                Task Status:
+                                Estado:
                                 <select
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
@@ -87,15 +96,14 @@ const TaskModal = ({ isOpen, onClose, task, onSave, onDelete, currentStatus }) =
                     <div className="modal-footer">
                         {task && (
                             <button className="delete-btn" onClick={handleDelete}>
-                                Delete Task
+                                Eliminar tarea
                             </button>
                         )}
                         <button
                             className="save-btn"
                             onClick={handleSave}
-                            disabled={!title || !description || status === 'Selecciona una opción'}
                         >
-                            {task ? 'Save Changes' : 'Add New Task'}
+                            {task ? 'Guardar cambios' : 'Agregar nueva tarea'}
                         </button>
                     </div>
                 </div>

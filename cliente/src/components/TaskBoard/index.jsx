@@ -1,7 +1,6 @@
 import { useState } from "react";
 import RenderColumn from "@/components/RenderColumn";
 import { useTaskStore } from "@/store/useTaskStore";
-import ErrorNotification from "@/components/ErrorNotification";
 
 const TaskBoard = () => {
     const { tasks, error, loading, deleteTask } = useTaskStore();
@@ -9,9 +8,8 @@ const TaskBoard = () => {
 
     return (
         <div className="board">
-            {error && <ErrorNotification message={error} />}
             <RenderColumn
-                title="Backlog"
+                title="Reservar"
                 tasks={tasks.filter(task => task.status === "Backlog")}
                 filterStatus="Backlog"
                 loading={loading}
@@ -20,7 +18,7 @@ const TaskBoard = () => {
                 editingTask={editingTask}
             />
             <RenderColumn
-                title="To Do"
+                title="Hacer"
                 tasks={tasks.filter(task => task.status === "ToDo")}
                 filterStatus="ToDo"
                 loading={loading}
@@ -29,7 +27,7 @@ const TaskBoard = () => {
                 editingTask={editingTask}
             />
             <RenderColumn
-                title="In Progress"
+                title="En curso"
                 tasks={tasks.filter(task => task.status === "InProgress")}
                 filterStatus="InProgress"
                 loading={loading}
@@ -38,7 +36,7 @@ const TaskBoard = () => {
                 editingTask={editingTask}
             />
             <RenderColumn
-                title="Done"
+                title="Finalizada"
                 tasks={tasks.filter(task => task.status === "Done")}
                 filterStatus="Done"
                 loading={loading}

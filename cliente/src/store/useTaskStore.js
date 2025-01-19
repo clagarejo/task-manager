@@ -1,28 +1,32 @@
 import { create } from 'zustand';
 import taskApi from '@/api/taskApi';
-import { useAuthStore } from '@/store/useAuthStore'; // Asegúrate de tener acceso al usuario logueado
+import { useAuthStore } from '@/store/useAuthStore';
+import Swal from 'sweetalert2';
 
 export const useTaskStore = create((set, get) => ({
     tasks: [],
     error: null,
     loading: false,
 
-    // Fetch tasks for the logged-in user
     fetchTasks: async () => {
-        const { user } = useAuthStore.getState(); // Obtener el usuario logueado
+        const { user } = useAuthStore.getState();
         if (!user) return set({ error: 'No hay un usuario autenticado.' });
 
         set({ loading: true, error: null });
         try {
-            const response = await taskApi.get(`/tasks?userId=${user.uid}`); // Filtrar tareas por el usuario logueado
+            const response = await taskApi.get(`/tasks?userId=${user.uid}`);
             const tasks = response.data.map((task) => ({
                 ...task,
                 id: task.id,
             }));
             set({ tasks });
-
         } catch (error) {
             set({ error: 'Error al cargar las tareas.' });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al cargar las tareas.',
+            });
         } finally {
             set({ loading: false });
         }
@@ -41,18 +45,19 @@ export const useTaskStore = create((set, get) => ({
                 userId: user.uid,
             });
 
-            console.log(response, 'responseee')
-
             const newTask = {
                 ...response.data,
                 id: response.data.id,
             };
 
-            console.log(newTask, 'datos del usuario')
-
             set((state) => ({ tasks: [...state.tasks, newTask] }));
         } catch (error) {
             set({ error: 'Error al agregar la tarea.' });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al agregar la tarea.',
+            });
         }
     },
 
@@ -79,6 +84,11 @@ export const useTaskStore = create((set, get) => ({
             }));
         } catch (error) {
             set({ error: 'Error al actualizar la tarea.' });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al actualizar la tarea.',
+            });
         }
     },
 
@@ -89,7 +99,7 @@ export const useTaskStore = create((set, get) => ({
         set({ error: null });
         try {
             await taskApi.delete(`/tasks/${taskId}`, {
-                data: { userId: user.uid }, 
+                data: { userId: user.uid },
                 headers: { 'x-token': user.token }
             });
             set((state) => ({
@@ -97,11 +107,14 @@ export const useTaskStore = create((set, get) => ({
             }));
         } catch (error) {
             set({ error: 'Error al eliminar la tarea.' });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al eliminar la tarea.',
+            });
         }
     },
 
-
-    // Move a task to a new status (validate ownership)
     moveTask: async (taskId, newStatus) => {
         const { user } = useAuthStore.getState();
         if (!user) return set({ error: 'No hay un usuario autenticado.' });
@@ -121,9 +134,13 @@ export const useTaskStore = create((set, get) => ({
             }));
         } catch (error) {
             set({ error: 'Error al mover la tarea.' });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al mover la tarea.',
+            });
         }
     },
 
-    // Clear error
     clearError: () => set({ error: null }),
 }));

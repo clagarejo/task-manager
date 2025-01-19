@@ -1,13 +1,12 @@
 import { create } from "zustand";
 import taskApi from "@/api/taskApi";
+import Swal from "sweetalert2";
 
 export const useAuthStore = create((set) => ({
-    // Estado inicial
-    status: 'not-authenticated', // El estado de autenticación (checking, authenticated, not-authenticated)
-    user: null,         // Usuario actual
-    errorMessage: null, // Mensaje de error
+    status: 'not-authenticated',
+    user: null,
+    errorMessage: null,
 
-    // Método de inicio de sesión
     startLogin: async ({ email, password }) => {
         set({ status: 'checking' });
         try {
@@ -23,13 +22,17 @@ export const useAuthStore = create((set) => ({
                 errorMessage: 'Credenciales incorrectas',
                 status: 'not-authenticated',
             });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Credenciales incorrectas',
+            });
             setTimeout(() => {
                 set({ errorMessage: null });
             }, 10);
         }
     },
 
-    // Método de registro
     startRegister: async ({ name, email, password }) => {
         set({ status: 'checking' });
         try {
@@ -41,9 +44,15 @@ export const useAuthStore = create((set) => ({
                 status: 'authenticated',
             });
         } catch (error) {
+            const errorMsg = error.response?.data?.msg || 'Error con los datos ingresados';
             set({
-                errorMessage: error.response?.data?.msg || 'Error con los datos ingresados',
+                errorMessage: errorMsg,
                 status: 'not-authenticated',
+            });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMsg,
             });
             setTimeout(() => {
                 set({ errorMessage: null });
@@ -51,9 +60,6 @@ export const useAuthStore = create((set) => ({
         }
     },
 
-
-
-    // Método para verificar el token de autenticación
     checkAuthToken: async () => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -76,10 +82,14 @@ export const useAuthStore = create((set) => ({
         } catch (error) {
             localStorage.clear();
             set({ status: 'not-authenticated', user: null });
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Token inválido, por favor inicie sesión nuevamente',
+            });
         }
     },
 
-    // Método para cerrar sesión
     startLogout: () => {
         localStorage.clear();
         set({ status: 'not-authenticated', user: null, errorMessage: null });

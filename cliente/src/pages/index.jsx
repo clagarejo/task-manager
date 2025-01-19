@@ -30,7 +30,7 @@ function LoginRegister() {
             <div className="form-container">
                 {/* Login Section */}
                 <div className="form-section login-section">
-                    <h2>Iniciar Sesión</h2>
+                    <h2>Iniciar sesión</h2>
                     <form onSubmit={handleLoginSubmit}>
                         <div className="form-group">
                             <label htmlFor="login-email">Correo Electrónico</label>
@@ -53,7 +53,7 @@ function LoginRegister() {
                             />
                         </div>
                         <button type="submit" className="btn" disabled={status === 'checking'}>
-                            {status === 'checking' ? 'Cargando...' : 'Iniciar Sesión'}
+                            {status === 'checking' ? 'Cargando...' : 'Iniciar sesión'}
                         </button>
                     </form>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -61,7 +61,7 @@ function LoginRegister() {
 
                 {/* Register Section */}
                 <div className="form-section register-section">
-                    <h2>Crear Cuenta</h2>
+                    <h2>Crear cuenta</h2>
                     <form onSubmit={handleRegisterSubmit}>
                         <div className="form-group">
                             <label htmlFor="register-name">Nombre</label>
@@ -94,7 +94,7 @@ function LoginRegister() {
                             />
                         </div>
                         <button type="submit" className="btn" disabled={status === 'checking'}>
-                            {status === 'checking' ? 'Cargando...' : 'Crear Cuenta'}
+                            {status === 'checking' ? 'Cargando...' : 'Crear cuenta'}
                         </button>
                     </form>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}

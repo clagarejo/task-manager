@@ -27,7 +27,6 @@ const addTask = async (req, res) => {
     try {
         const newTask = new Task({ title, description, status, userId });
         await newTask.save();
-        console.log('Tarea guardada correctamente:', newTask);
 
         res.status(201).json({
             ok: true,
@@ -38,7 +37,6 @@ const addTask = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error al guardar la tarea:', error);
         res.status(500).json({ ok: false, msg: 'Error al crear la tarea' });
     }
 };
