@@ -28,3 +28,5 @@ app.use('/api/tasks', require('./routes/task'))
 app.listen(PORT, () => {
     console.log(`servidor corriendo en ${PORT}`)
 })
+
+module.exports = app;
