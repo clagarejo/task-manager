@@ -14,7 +14,6 @@ body {
     width: 1200px;
     max-width: 90%;
     display: flex;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     overflow: hidden;
     margin: auto;
@@ -42,7 +41,7 @@ body {
 }
 
 .register-section {
-    background-color: #C4E2FC;
+    background-color: #d0e9ff;
     color: #fff;
 }
 
@@ -88,7 +87,6 @@ input:focus {
     outline: none;
     border-color: #007bff;
     background-color: #fff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
 }
 
 input::placeholder {

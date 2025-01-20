@@ -33,7 +33,7 @@ function LoginRegister() {
                     <h2>Iniciar sesión</h2>
                     <form onSubmit={handleLoginSubmit}>
                         <div className="form-group">
-                            <label htmlFor="login-email">Correo Electrónico</label>
+                            <label htmlFor="login-email">Correo electrónico</label>
                             <input
                                 type="email"
                                 id="login-email"
@@ -74,7 +74,7 @@ function LoginRegister() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="register-email">Correo Electrónico</label>
+                            <label htmlFor="register-email">Correo electrónico</label>
                             <input
                                 type="email"
                                 id="register-email"

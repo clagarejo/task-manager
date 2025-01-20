@@ -15,19 +15,19 @@ h2 {
 }
 
 .column.Backlog {
-    background-color: #D3CEFF;
+    background-color: #efecff;
 }
 
 .column.ToDo {
-    background-color: #C4E2FC;
+    background-color: #d9edff;
 }
 
 .column.InProgress {
-    background-color: #FAE9CE;
+    background-color: #fff1db;
 }
 
 .column.Done {
-    background-color: #E9FFDA;
+    background-color: #eeffe3;
 }
 
 .column section {
@@ -54,7 +54,6 @@ ul li {
     background: #fff;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 p {

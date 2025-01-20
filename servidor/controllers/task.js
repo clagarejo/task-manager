@@ -13,6 +13,7 @@ const getTasks = async (req, res) => {
         }));
         res.json(formattedTasks);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ ok: false, msg: 'Error al obtener las tareas' });
     }
 };
@@ -37,6 +38,7 @@ const addTask = async (req, res) => {
         });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ ok: false, msg: 'Error al crear la tarea' });
     }
 };
@@ -64,6 +66,7 @@ const updateTask = async (req, res) => {
             status: task.status,
         });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ ok: false, msg: 'Error al actualizar la tarea' });
     }
 };
@@ -81,6 +84,7 @@ const deleteTask = async (req, res) => {
 
         res.json({ ok: true, msg: 'Tarea eliminada', id: task._id });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ ok: false, msg: 'Error al eliminar la tarea' });
     }
 };

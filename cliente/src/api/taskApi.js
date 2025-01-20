@@ -1,6 +1,7 @@
 
 import axios from 'axios'
-const apiURl = "https://server-task.fly.dev/api"
+const apiURl = "http://localhost:3000/api"
+// const apiURl = "https://server-task.fly.dev/api"
 
 const taskApi = axios.create({
     baseURL: apiURl

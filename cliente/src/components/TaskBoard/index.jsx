@@ -9,7 +9,7 @@ const TaskBoard = () => {
     return (
         <div className="board">
             <RenderColumn
-                title="Reservar"
+                title="Backlog"
                 tasks={tasks.filter(task => task.status === "Backlog")}
                 filterStatus="Backlog"
                 loading={loading}
@@ -18,7 +18,7 @@ const TaskBoard = () => {
                 editingTask={editingTask}
             />
             <RenderColumn
-                title="Hacer"
+                title="ToDo"
                 tasks={tasks.filter(task => task.status === "ToDo")}
                 filterStatus="ToDo"
                 loading={loading}
@@ -27,7 +27,7 @@ const TaskBoard = () => {
                 editingTask={editingTask}
             />
             <RenderColumn
-                title="En curso"
+                title="In Progress"
                 tasks={tasks.filter(task => task.status === "InProgress")}
                 filterStatus="InProgress"
                 loading={loading}
@@ -36,7 +36,7 @@ const TaskBoard = () => {
                 editingTask={editingTask}
             />
             <RenderColumn
-                title="Finalizada"
+                title="Done"
                 tasks={tasks.filter(task => task.status === "Done")}
                 filterStatus="Done"
                 loading={loading}

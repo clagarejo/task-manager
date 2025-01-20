@@ -26,7 +26,7 @@ const MainApp = () => {
     return (
         <div className="tasks-container">
             <div className="header">
-                <h1>Administrador de tareas</h1>
+                <h1>Task manager</h1>
                 <div className="logout-container" onClick={handleLogout}>
                     <FaSignOutAlt size={20} />
                 </div>

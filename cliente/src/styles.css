@@ -6,7 +6,7 @@
 
 body {
   box-sizing: border-box;
-  background-color: #e9f5ff;
+  background-color: #f5fbff;
   padding: 20px;
 }
 
@@ -33,11 +33,10 @@ h1 {
 }
 
 .logout-container span {
-  margin-right: 8px;
   font-size: 20px;
 }
 
 .logout-container svg {
-  color: #f00;
-  /* Puedes cambiar el color según tus necesidades */
+  margin-right: 20px;
+  color: rgb(255, 124, 124);
 }

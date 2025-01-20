@@ -34,6 +34,7 @@ const createUsers = async (req, res = response) => {
         });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
@@ -75,6 +76,7 @@ const loginUsers = async (req, res = response) => {
         });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'No se ha encontrado un usuario con esas credenciales'
