@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 import './styles.css';
 
@@ -15,12 +16,34 @@ function LoginRegister() {
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
+
+        if (!loginEmail || !loginPassword) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oppss...',
+                text: 'Todos los campos son requeridos.',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
         await startLogin({ email: loginEmail, password: loginPassword });
         navigate("/tasks");
     };
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
+
+        if (!registerName || !registerEmail || !registerPassword) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oppss...',
+                text: 'Todos los campos son requeridos',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
         await startRegister({ name: registerName, email: registerEmail, password: registerPassword });
         navigate("/tasks");
     };
