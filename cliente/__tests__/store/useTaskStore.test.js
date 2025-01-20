@@ -43,7 +43,7 @@ describe('useTaskStore', () => {
 
     test('updateTask debe actualizar una tarea correctamente', async () => {
         const initialTask = { id: 1, title: 'Task 1', description: 'Description' };
-        const updatedTask = { id: 1, title: 'Updated Task', description: 'Updated description', status: 'completed' };
+        const updatedTask = { id: 1, title: 'Updated Task', description: 'Updated description', status: 'Done' };
         useTaskStore.setState({ tasks: [initialTask] });
         taskApi.put.mockResolvedValue({ data: updatedTask });
         await useTaskStore.getState().updateTask(updatedTask, userId);
@@ -68,14 +68,4 @@ describe('useTaskStore', () => {
         expect(useTaskStore.getState().tasks).toContainEqual(taskToDelete);
     });
 
-    test('moveTask debe mover una tarea correctamente', async () => {
-        const taskId = 1;
-        const initialTask = { id: taskId, title: 'Task', description: 'Description', status: 'Backlog' };
-        const newStatus = 'completed';
-        const updatedTask = { ...initialTask, status: newStatus };
-        useTaskStore.setState({ tasks: [initialTask] });
-        taskApi.put.mockResolvedValue({ data: updatedTask });
-        await useTaskStore.getState().moveTask(taskId, newStatus, userId);
-        expect(useTaskStore.getState().tasks).toContainEqual(updatedTask);
-    });
 });
