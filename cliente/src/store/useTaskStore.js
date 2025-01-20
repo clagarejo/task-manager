@@ -115,24 +115,35 @@ export const useTaskStore = create((set, get) => ({
         }
     },
 
-    moveTask: async (taskId, newStatus) => {
+    moveTask: async (updatedTask) => {
+        const { id, status, title, description } = updatedTask;
         const { user } = useAuthStore.getState();
-        if (!user) return set({ error: 'No hay un usuario autenticado.' });
+
+        if (!user) {
+            set({ error: 'No hay un usuario autenticado.' });
+            return;
+        }
 
         set({ error: null });
+
         try {
-            const taskToUpdate = { id: taskId, status: newStatus, userId: user.uid };
-            const response = await taskApi.put(`/tasks/${taskId}`, taskToUpdate);
+            const taskToUpdate = { id, status, title, description, userId: user.uid};
+            console.log('Datos enviados:', taskToUpdate);
+            const response = await taskApi.put(`/tasks/${id}`, taskToUpdate);
+            console.log('Respuesta del servidor:', response.data);
+
             const updated = {
                 ...response.data,
                 id: response.data.id,
             };
+
             set((state) => ({
                 tasks: state.tasks.map((task) =>
-                    task.id === taskId ? updated : task
+                    task.id === id ? updated : task
                 ),
             }));
         } catch (error) {
+            console.error('Error al mover la tarea:', error);
             set({ error: 'Error al mover la tarea.' });
             Swal.fire({
                 icon: 'error',
@@ -141,6 +152,7 @@ export const useTaskStore = create((set, get) => ({
             });
         }
     },
+
 
     clearError: () => set({ error: null }),
 }));

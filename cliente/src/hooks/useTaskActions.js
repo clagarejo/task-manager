@@ -18,7 +18,7 @@ export const useTaskActions = (taskToEdit, currentStatus, setIsModalOpen) => {
             updatedTask.id = taskToEdit.id;
 
             if (updatedTask.status !== taskToEdit.status) {
-                moveTask(updatedTask.id, updatedTask.status);
+                moveTask(updatedTask);
             } else {
                 updateTask(updatedTask);
             }

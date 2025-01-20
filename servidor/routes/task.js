@@ -17,7 +17,7 @@ router.put('/:id', [
     check('id', 'El ID debe ser un identificador válido').isMongoId(),
     check('title', 'El título es obligatorio').not().isEmpty(),
     check('description', 'La descripción es obligatoria').not().isEmpty(),
-    check('status', 'El estado es obligatorio y debe ser "Pending", "In Progress", o "Done"').isIn(['Pending', 'In Progress', 'Done']),
+    check('status', 'El estado es obligatorio y debe ser "Backlog", "ToDo", "InProgress", o "Done"').isIn(['Backlog', 'ToDo', 'InProgress', 'Done']),
     validarCampos,
 ], updateTask);
 
